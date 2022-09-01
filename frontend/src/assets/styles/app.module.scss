@@ -1,10 +1,52 @@
+@import "@/assets/styles/_variables.scss";
+@import "@/assets/styles/_mixins.scss";
+
 @include font-face('GmarketSans', 'GmarketSansLight', 300);
 @include font-face('GmarketSans', 'GmarketSansMedium');
 @include font-face('GmarketSans', 'GmarketSansBold', bold);
 body {
   margin: 0;
+  background-color: $darkbase;
 }
 
 #app {
   font-family: GmarketSans, sans-serif;
+  color: $white;
+}
+
+.cc {
+  display: inline-block;
+  border-radius: 50%;
+  background-color: $darkbase;
+
+  &-36 {
+    width: 36px;
+    height: 36px;
+  }
+
+  &-48 {
+    width: 48px;
+    height: 48px;
+  }
+
+  &-64 {
+  }
+
+  &-72 {
+  }
+
+  &-96 {
+  }
+
+  &-144 {
+  }
+
+  &-192 {
+  }
+
+  &-256 {
+  }
+
+  &-512 {
+  }
 }

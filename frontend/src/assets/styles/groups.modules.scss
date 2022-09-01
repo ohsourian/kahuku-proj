@@ -1,3 +1,33 @@
+@import "@/assets/styles/app.module.scss";
+
 body {
-  background-color: blueviolet;
+
+}
+
+.main {
+  background-image: url("#{$img-path}/bg-group-index@1x.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+
+  .contents {
+    min-width: 1120px;
+    box-sizing: border-box;
+    padding-top: 3rem;
+
+    .box-label {
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+
+    .glass {
+      background-color: rgba($indigo, 0.43);
+      box-shadow: 0 0 3px 3px rgba($indigo, 0.43);
+      border-radius: $glass-border;
+      padding: 0.7rem;
+    }
+  }
 }
