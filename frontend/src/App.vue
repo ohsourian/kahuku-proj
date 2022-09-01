@@ -11,5 +11,7 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
-@import "@/assets/app.module.scss";
+@import "@/assets/styles/_variables.scss";
+@import "@/assets/styles/_mixins.scss";
+@import "@/assets/styles/app.module.scss";
 </style>

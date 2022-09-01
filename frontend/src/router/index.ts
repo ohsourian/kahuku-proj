@@ -1,11 +1,17 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.vue";
+import GroupIndex from "@/views/GroupIndex.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "home",
     component: Home,
+  },
+  {
+    path: "/groups",
+    name: "groupIndex",
+    component: GroupIndex,
   },
   {
     path: "/about",
