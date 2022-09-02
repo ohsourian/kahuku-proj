@@ -1,3 +1,3 @@
 module.exports = {
-  Cat: require("./cats/cat.model"),
+  Participant: require("./participants/participant.model"),
 };

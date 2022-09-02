@@ -1,4 +1,4 @@
-const Cat = require("./cats/cat.controller");
+const Participant = require("./participants/participant.controller");
 module.exports = (app) => {
-  app.use("/api/cats", Cat);
+  app.use("/api/participants", Participant);
 };

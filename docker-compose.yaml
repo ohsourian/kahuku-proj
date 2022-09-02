@@ -23,9 +23,9 @@ services:
     env_file:
       - ./database/mysql/config/.env
     expose:
-      - 3306
+      - 13306
     ports:
-      - "3306:3306"
+      - "13306:3306"
     volumes:
       - ./database/mysql/data:/var/lib/mysql
       - ./database/mysql/config:/docker-entrypoint-initdb.d
