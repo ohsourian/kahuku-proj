@@ -1,12 +1,10 @@
 <template>
-  <NavBar />
-  <router-view />
+  <div>123</div>
 </template>
 <script>
-import NavBar from "@/components/NavBar";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  components: { NavBar },
+  name: "ButtonComp",
 });
 </script>

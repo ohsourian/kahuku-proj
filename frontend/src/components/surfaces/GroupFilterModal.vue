@@ -1,12 +1,12 @@
 <template>
-  <NavBar />
-  <router-view />
+  <Modal is-open="true">
+    <div>foobar</div>
+  </Modal>
 </template>
 <script>
-import NavBar from "@/components/NavBar";
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  components: { NavBar },
+  name: "GroupFilterModal",
 });
 </script>

@@ -28,6 +28,10 @@ body {
       box-shadow: 0 0 3px 3px rgba($indigo, 0.43);
       border-radius: $glass-border;
       padding: 0.7rem;
+      &-dark {
+        background-color: rgba($darkbase, 0.43);
+        box-shadow: 0 0 3px 3px rgba($darkbase, 0.43);
+      }
     }
   }
 }

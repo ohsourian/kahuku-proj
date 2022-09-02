@@ -28,14 +28,17 @@
           </div>
         </div>
       </div>
+      <GroupFilterModal />
     </div>
   </section>
 </template>
 <script>
 import { defineComponent } from "vue";
+import GroupFilterModal from "@/components/surfaces/GroupFilterModal";
 
 export default defineComponent({
   name: "GroupIndex",
+  components: { GroupFilterModal },
 });
 </script>
 <style lang="scss">
