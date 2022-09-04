@@ -1,5 +1,5 @@
 <template>
-  <Modal is-open="true">
+  <Modal :is-open="false">
     <div>foobar</div>
   </Modal>
 </template>

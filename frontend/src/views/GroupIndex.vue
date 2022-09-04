@@ -1,5 +1,5 @@
 <template>
-  <section class="main">
+  <MainSection>
     <div class="contents">
       <span class="box-label">검색 옵션</span>
       <div class="glass options">
@@ -30,15 +30,16 @@
       </div>
       <GroupFilterModal />
     </div>
-  </section>
+  </MainSection>
 </template>
 <script>
 import { defineComponent } from "vue";
 import GroupFilterModal from "@/components/surfaces/GroupFilterModal";
+import MainSection from "@/components/layouts/MainSection";
 
 export default defineComponent({
   name: "GroupIndex",
-  components: { GroupFilterModal },
+  components: { MainSection, GroupFilterModal },
 });
 </script>
 <style lang="scss">

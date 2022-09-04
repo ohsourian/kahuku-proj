@@ -7,6 +7,7 @@
 body {
   margin: 0;
   background-color: $darkbase;
+  min-width: 1300px;
 }
 
 #app {
@@ -14,10 +15,27 @@ body {
   color: $white;
 }
 
+.glass {
+  background-color: rgba($indigo, 0.43);
+  box-shadow: 0 0 3px 3px rgba($indigo, 0.43);
+  border-radius: $glass-border;
+  padding: 0.7rem;
+
+  &-dark {
+    background-color: rgba($darkbase, 0.43);
+    box-shadow: 0 0 3px 3px rgba($darkbase, 0.43);
+  }
+}
+
 .cc {
   display: inline-block;
   border-radius: 50%;
   background-color: $darkbase;
+
+  &-20 {
+    width: 20px;
+    height: 20px;
+  }
 
   &-36 {
     width: 36px;
