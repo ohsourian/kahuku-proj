@@ -7,6 +7,24 @@ $indigo: #2c465f;
 $darkbase: #1e1e1e;
 $gray: #cccccc;
 $lightgray: #eeeeee;
+$info: #3d818d;
+$warning: #f6c744;
+$danger: #d4533d;
+$purple: #8e2d95;
+$orange: #db6c3f;
+
+
+// Font Size
+$font-xs: 12pt;
+$font-sm: 16pt;
+$font-md: 20pt;
+$font-lg: 28pt;
+
+// Gradients
+$glass-dark: linear-gradient(45deg, rgba(#2f2f2f, 0.43), rgba(#1e1e1e, 0.43));
+$glass-dark-rv: linear-gradient(-45deg, rgba(#2f2f2f, 0.43), rgba(#1e1e1e, 0.43));
+$hover-border: linear-gradient(135deg, #F6C744, #D4533D, #8E2D95);
+$hover-glow-border: linear-gradient(135deg, #F6C744, #D4533D, #8E2D95, #D4533D, #F6C744);
 
 // pixels
-$glass-border: 8px
+$glass-border: 8px;

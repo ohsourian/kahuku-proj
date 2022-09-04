@@ -4,20 +4,23 @@ body {
 
 }
 
-.main {
+.body-wrapper {
   box-sizing: border-box;
   overflow: auto;
   background-image: url("#{$img-path}/bg-group-index@1x.png");
   background-repeat: no-repeat;
   background-size: cover;
   background-attachment: fixed;
-  min-height: 100vh;
+}
+
+.main {
+  min-height: 85vh;
   min-width: fit-content;
   display: flex;
   justify-content: center;
 
   .contents {
-    min-width: 1120px;
+    min-width: 1260px;
     box-sizing: border-box;
     padding-top: 96px;
 

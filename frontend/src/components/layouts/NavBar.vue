@@ -72,6 +72,7 @@ export default defineComponent({
   display: flex;
   align-content: center;
   padding: 16px;
+  z-index: 2;
 
   .logo {
     margin-right: 15px;
