@@ -14,15 +14,15 @@ export default defineComponent({
   name: "ButtonComp",
   props: {
     type: {
-      type: Object as PropType<BtnStyle>,
+      type: String as PropType<BtnStyle>,
       required: true,
     },
     color: {
-      type: Object as PropType<BtnColor>,
+      type: String as PropType<BtnColor>,
       required: true,
     },
     size: {
-      type: Object as PropType<BtnSize>,
+      type: String as PropType<BtnSize>,
       required: true,
     },
     name: {
@@ -42,7 +42,7 @@ export default defineComponent({
             return "cc cc-20";
         }
       }
-      return this.size;
+      return `${this.type}-${this.size}`;
     },
   },
 });
@@ -55,30 +55,70 @@ export default defineComponent({
   cursor: pointer;
   border: 2px solid $white;
   background-color: transparent;
+
+  &-md {
+    width: 58px;
+    height: 36px;
+    border-radius: 10rem;
+  }
 }
 
 .info {
-  border-color: $info;
+  &-wb {
+    border-color: $info;
+
+    &:hover,
+    &:active {
+      background-color: $info;
+    }
+  }
+
+  &:hover,
+  &:active {
+    border-color: $info;
+    background-color: $info;
+  }
 }
 
 .orange {
-  border-color: $orange;
+  &:hover,
+  &:active {
+    border-color: $orange;
+    background-color: $orange;
+  }
 }
 
 .warning {
-  border-color: $warning;
+  &-wb {
+    border-color: $warning;
+
+    &:hover,
+    &:active {
+      background-color: $warning;
+    }
+  }
+
   &:hover,
   &:active {
+    border-color: $warning;
     background-color: $warning;
   }
 }
 
 .danger {
-  border-color: $danger;
+  &:hover,
+  &:active {
+    border-color: $danger;
+    background-color: $danger;
+  }
 }
 
 .purple {
-  border-color: $purple;
+  &:hover,
+  &:active {
+    border-color: $purple;
+    background-color: $purple;
+  }
 }
 
 .brush {
@@ -97,5 +137,21 @@ export default defineComponent({
   &:active {
     @include img(crown);
   }
+}
+
+.arrow-right {
+  @include img(arrow-right);
+}
+
+.up-down {
+  @include img(up-down);
+}
+
+.group {
+  @include img(group);
+}
+
+.person {
+  @include img(person);
 }
 </style>

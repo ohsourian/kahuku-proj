@@ -10,8 +10,8 @@
       <p class="org">서울 스테이크</p>
     </div>
     <div class="p-setting">
-      <Btn type="round" color="info" size="md" name="brush" />
-      <Btn type="round" color="warning" size="md" name="crown" />
+      <Btn type="round" color="info-wb" size="md" name="brush" />
+      <Btn type="round" color="warning-wb" size="md" name="crown" />
     </div>
   </div>
 </template>
@@ -65,6 +65,14 @@ export default defineComponent({});
     display: flex;
     width: 80px;
     justify-content: flex-end;
+
+    button {
+      margin-right: 8px;
+
+      &:nth-last-child(1) {
+        margin-right: 0;
+      }
+    }
   }
 }
 </style>
