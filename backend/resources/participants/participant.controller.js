@@ -19,45 +19,64 @@ router.post("/", async (req, res) => {
   }
 });
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res) => { 
   try {
-    const { page } = req.query;
-    const { name } = req.query;
+    var { page } = req.query; // 페이지
+    const { name } = req.query; // 이름
+    const { group } = req.query; // 조
+    var groupNum = []; // 불러올 조들 리스트
+    const members = [] // 각각의 조
+
+    page = page*2-1 // 페이지 계산식
+
+    const resData = {};
+    if(group == null){ // 기본페이지 네이션
+      for (let i = page; i < parseInt(page)+2; i++) {
+        console.log(i+"   "+page);
+        groupNum.push(i)
+      }
+      console.log(groupNum);
+    }else{ // 특정한 조 검색
+      console.log(groupNum);
+    }
+
     const data = await Participant.findAll({
       where: {
-        name: name
-      }
-    });
-
-    const data2 = {
-      "1":[
-        {
-          "id": 16,
-          "name": "four_4",
-          "gender": 0,
-          "group": 4,
-          "belong": "강북2",
-          "groupLeader": 0,
-          "profileColor": "black",
-          "createdAt": "2022-09-02T16:40:34.000Z",
-          "updatedAt": "2022-09-02T16:40:34.000Z"
+        group: groupNum
       },
-      ],
-      "2":[
-        {
-          "id": 16,
-          "name": "four_4",
-          "gender": 0,
-          "group": 4,
-          "belong": "강북2",
-          "groupLeader": 0,
-          "profileColor": "black",
-          "createdAt": "2022-09-02T16:40:34.000Z",
-          "updatedAt": "2022-09-02T16:40:34.000Z"
-      }
-      ]
-    };
-    return res.send(data2);
+      raw:true
+    });
+  
+
+
+  if(group == null){ 
+    var count = page;
+    for (let i = page; i < parseInt(page)+2; i++) {
+      for (let i = 0; i < data.length; i++) {
+        if(data[i].group == count){
+          members.push(data[i]);
+        };
+      };
+      count++;
+      resData[i] = {members:members};
+    }
+    return res.send(resData);
+  }else{
+    return res.send(resData);
+    // for (let i = page; i < parseInt(page)+2; i++) {
+    //   for (let i = 0; i < data.length; i++) {
+    //     if(data[i].group == count){
+    //       members.push(data[i]);
+    //     };
+    //   };
+    //   count++;
+    //   resData[i] = {members:members};
+    // }
+    // return res.send(resData);
+  }
+    
+
+    
   } catch (e) {
     console.error(e);
     return res.status(500).send("db err");
