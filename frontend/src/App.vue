@@ -2,9 +2,7 @@
   <NavBar />
   <section class="body-wrapper">
     <SideMenu v-if="menuToggle" />
-    <div class="content-area">
-      <router-view />
-    </div>
+    <router-view />
   </section>
   <FooterComp />
 </template>
@@ -25,12 +23,8 @@ export default defineComponent({
 </script>
 <style lang="scss">
 .body-wrapper {
+  box-sizing: border-box;
+  overflow: auto;
   display: flex;
-
-  .content-area {
-    flex: 1;
-    padding-left: 60px;
-    padding-right: 60px;
-  }
 }
 </style>

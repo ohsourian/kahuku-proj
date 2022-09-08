@@ -1,13 +1,15 @@
 <template>
-  <section class="main">
-    <div class="contents">
-      <FilterOptionSelect />
-      <div class="board">
-        <GroupCard v-for="index in 6" :key="index" />
+  <main>
+    <section class="main">
+      <div class="contents">
+        <FilterOptionSelect />
+        <div class="board">
+          <GroupCard v-for="index in 6" :key="index" />
+        </div>
+        <GroupFilterModal />
       </div>
-      <GroupFilterModal />
-    </div>
-  </section>
+    </section>
+  </main>
 </template>
 <script>
 import { defineComponent } from "vue";
@@ -20,7 +22,7 @@ export default defineComponent({
   components: { FilterOptionSelect, GroupCard, GroupFilterModal },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/assets/styles/groups.modules.scss";
 
 .board {
