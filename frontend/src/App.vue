@@ -24,7 +24,7 @@ export default defineComponent({
 <style lang="scss">
 .body-wrapper {
   box-sizing: border-box;
-  overflow: auto;
+  height: con;
   display: flex;
 }
 </style>

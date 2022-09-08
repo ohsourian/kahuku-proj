@@ -3,11 +3,20 @@
     v-if="type === 'round' || type === 'pill'"
     :class="`${type} ${sizedClass} ${color} ${name}`"
   ></button>
+  <button
+    v-else-if="type === 'regular'"
+    :class="`${type} ${sizedClass} ${color} ${afterClass}`"
+  >
+    {{ name }}
+  </button>
+  <button v-else-if="type === 'none'" :class="`${type}`">
+    {{ name }}
+  </button>
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-type BtnStyle = "round" | "pill" | "regular";
+type BtnStyle = "round" | "pill" | "regular" | "none";
 type BtnSize = "sm" | "md" | "lg";
 type BtnColor = "primary" | "info" | "warning" | "danger" | "purple";
 export default defineComponent({
@@ -19,15 +28,19 @@ export default defineComponent({
     },
     color: {
       type: String as PropType<BtnColor>,
-      required: true,
+      default: "",
     },
     size: {
       type: String as PropType<BtnSize>,
-      required: true,
+      default: "",
     },
     name: {
       type: String,
       required: true,
+    },
+    after: {
+      type: String,
+      default: "",
     },
   },
   computed: {
@@ -44,15 +57,25 @@ export default defineComponent({
       }
       return `${this.type}-${this.size}`;
     },
+    afterClass(): string {
+      if (this.after?.length) {
+        return `after after-${this.after}`;
+      }
+      return "";
+    },
   },
 });
 </script>
 <style lang="scss" scoped>
+button {
+  cursor: pointer;
+  color: $white;
+}
+
 .round,
 .pill {
   @include clean();
   box-sizing: border-box;
-  cursor: pointer;
   border: 2px solid $white;
   background-color: transparent;
 
@@ -61,6 +84,33 @@ export default defineComponent({
     height: 36px;
     border-radius: 10rem;
   }
+}
+
+.regular {
+  @include clean();
+  box-sizing: border-box;
+  border-radius: 10rem;
+
+  &-md {
+    font-size: 22px;
+    width: 280px;
+    height: 52px;
+  }
+
+  &-lg {
+    font-size: 32px;
+    font-weight: bold;
+    width: 380px;
+    height: 65px;
+  }
+}
+
+.none {
+  @include clean();
+  text-decoration: underline;
+  background-color: transparent;
+  font-size: 18px;
+  color: $primary;
 }
 
 .info {
@@ -85,6 +135,49 @@ export default defineComponent({
   &:active {
     border-color: $orange;
     background-color: $orange;
+  }
+}
+
+.primary {
+  &-fill {
+    background-color: $primary;
+
+    &:hover,
+    &:active {
+      background-color: $gray;
+    }
+  }
+
+  &-wb {
+    border-color: $primary;
+
+    &:hover,
+    &:active {
+      background-color: $primary;
+    }
+  }
+
+  &:hover,
+  &:active {
+    border-color: $primary;
+    background-color: $primary;
+  }
+}
+
+.secondary {
+  &-fill {
+    background-color: $secondary;
+
+    &:hover,
+    &:active {
+      background-color: $gray;
+    }
+  }
+
+  &:hover,
+  &:active {
+    border-color: $primary;
+    background-color: $primary;
   }
 }
 
@@ -153,5 +246,16 @@ export default defineComponent({
 
 .person {
   @include img(person);
+}
+
+.after {
+  &-down:after {
+    @include img(down);
+    margin-left: 10px;
+    content: "";
+    display: inline-block;
+    width: 23px;
+    height: 23px;
+  }
 }
 </style>

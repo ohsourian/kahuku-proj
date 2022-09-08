@@ -12,15 +12,62 @@
           환영합니다!
         </p>
       </div>
-      <div class="button-wrapper"></div>
+      <div class="button-wrapper">
+        <Btn
+          class="shortcut"
+          type="regular"
+          color="primary-fill"
+          size="lg"
+          after="down"
+          name="조편성 바로가기"
+        />
+      </div>
     </header>
+    <div class="contents">
+      <div class="contents-header">
+        <img src="@/assets/images/chip@2x.png" alt="chip-ams" />
+        <small class="sequence">
+          <span class="emp">A</span>CTIVE <span class="emp">M</span>ATCH-UP
+          <span class="emp">S</span>EQUENCE
+        </small>
+        <h3>
+          <span class="sub">여러분과 3일간 함께 지낼 조원을</span><br />
+          <span class="main">여기서 딱 정해드립니다.</span>
+        </h3>
+        <p>
+          청년대회 조 편성이 여기서 즉석으로 이루어 집니다. <br />
+          신청 과정에서 여러분이 작성해주신 선호도와 성별 및 나이를 포함한 각종
+          정보를 반영하여, 액티브 매치-업 시퀀스는 현장에서 랜덤 시드를 받아 그
+          자리에서 즉시 난수화 하여 16명씩 한 조로 배정합니다.
+        </p>
+        <ul>
+          <li>
+            <img src="@/assets/images/preference@2x.png" alt="pref" /><br />
+            <span>선호도 반영</span>
+          </li>
+          <li>
+            <img src="@/assets/images/lucky@2x.png" alt="luck" /><br />
+            <span>시드 랜덤화 알고리즘</span>
+          </li>
+          <li>
+            <img src="@/assets/images/globe@2x.png" alt="globe" /><br />
+            <span>높은 접근성</span>
+          </li>
+        </ul>
+      </div>
+      <div class="space">
+        <SlotSelect />
+      </div>
+    </div>
   </main>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue"; // @ is an alias to /src
+import { defineComponent } from "vue";
+import SlotSelect from "@/components/surfaces/SlotSelect.vue"; // @ is an alias to /src
 export default defineComponent({
   name: "Home",
+  components: { SlotSelect },
 });
 </script>
 <style lang="scss" scoped>
@@ -35,7 +82,14 @@ export default defineComponent({
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 100px;
-  background-color: #8e2d95;
+  height: 130px;
+
+  .shortcut {
+    margin-left: 58%;
+  }
+}
+
+.space {
+  margin: 75px 0;
 }
 </style>

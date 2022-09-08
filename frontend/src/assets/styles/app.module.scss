@@ -7,7 +7,6 @@
 body {
   margin: 0;
   background-color: $darkbase;
-  min-width: 1300px;
 }
 
 #app {
@@ -25,6 +24,16 @@ body {
     background-color: rgba($darkbase, 0.43);
     box-shadow: 0 0 3px 3px rgba($darkbase, 0.43);
   }
+}
+
+.slot-input {
+  display: inline-block;
+  background-image: $roller-gradient;
+  width: 120px;
+  height: 190px;
+  font-size: 45pt;
+  font-weight: bold;
+  text-align: center;
 }
 
 .cc {

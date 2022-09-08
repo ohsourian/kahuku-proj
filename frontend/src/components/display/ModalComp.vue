@@ -26,7 +26,7 @@ export default defineComponent({
   },
   methods: {
     onClose() {
-      return this.$emit.close;
+      return this.$emit("close");
     },
   },
 });

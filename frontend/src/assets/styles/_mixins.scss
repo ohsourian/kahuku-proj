@@ -21,3 +21,10 @@
   background-origin: content-box;
   background-position: center;
 }
+
+@mixin textGradient($list...) {
+  background-image: linear-gradient(to right, $list);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(4px 4px #000);
+}

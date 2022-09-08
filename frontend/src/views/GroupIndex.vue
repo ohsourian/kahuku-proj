@@ -13,7 +13,7 @@
 </template>
 <script>
 import { defineComponent } from "vue";
-import GroupFilterModal from "@/components/surfaces/GroupFilterModal";
+import GroupFilterModal from "@/components/modals/GroupFilterModal";
 import GroupCard from "@/components/surfaces/GroupCard";
 import FilterOptionSelect from "@/components/surfaces/FilterOptionSelect";
 

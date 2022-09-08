@@ -5,15 +5,18 @@ $img-path: "@/assets/images";
 $white: #ffffff;
 $indigo: #2c465f;
 $darkbase: #1e1e1e;
+$mediumgray: #3f3f3f;
 $gray: #cccccc;
 $lightgray: #eeeeee;
 $primary: #0a84ff;
+$secondary: #6c757d;
 $info: #3d818d;
 $warning: #f6c744;
 $danger: #d4533d;
 $purple: #8e2d95;
 $orange: #db6c3f;
 $dimblue: #407ebd;
+$silver-text: #7e7e7e, #bcbcbc, #7e7e7e;
 
 
 // Font Size
@@ -27,6 +30,8 @@ $glass-dark: linear-gradient(45deg, rgba(#2f2f2f, 0.43), rgba(#1e1e1e, 0.43));
 $glass-dark-rv: linear-gradient(-45deg, rgba(#2f2f2f, 0.43), rgba(#1e1e1e, 0.43));
 $hover-border: linear-gradient(135deg, #F6C744, #D4533D, #8E2D95);
 $hover-glow-border: linear-gradient(135deg, #F6C744, #D4533D, #8E2D95, #D4533D, #F6C744);
+$silver-gradient: linear-gradient(to right, $silver-text);
+$roller-gradient: linear-gradient(to bottom, #bbb, #fff, #fff, #fff, #bbb);
 
 // pixels
 $glass-border: 8px;

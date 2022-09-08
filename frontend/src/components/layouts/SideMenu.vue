@@ -28,6 +28,7 @@ export default defineComponent({
   top: 90px;
   left: 56px;
   height: 80%;
+  z-index: 5;
 
   .menu-category {
     display: flex;
@@ -54,7 +55,6 @@ export default defineComponent({
     font-size: $font-sm;
     text-decoration: none;
     color: $gray;
-    z-index: 0;
 
     &:before {
       content: "";
