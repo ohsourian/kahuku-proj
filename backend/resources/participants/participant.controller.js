@@ -83,6 +83,32 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/:group", async (req, res) => { 
+  try {
+    const group = req.params.group; // 조
+    const members = [] // 각각의 조
+    const resData = {};
+
+    const data = await Participant.findAll({
+      where: {
+        group: group
+      },
+      raw:true
+    });
+
+    for (let i = 0; i < data.length; i++) {
+        members.push(data[i]);
+    };
+     resData[group] = {members:members};
+
+    return res.send(resData);
+  
+  } catch (e) {
+    console.error(e);
+    return res.status(500).send("db err");
+  }
+});
+
 router.delete("/", async (req, res) => {
   try {
     await Participant.destroy({
