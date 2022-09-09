@@ -1,14 +1,92 @@
 <template>
-  <Modal :is-open="visual" @close="closeModal">
-    
+  <Modal :is-open="visual">
+    <div class="modal-wrapper">
+      <template v-if="modalState === 'ready'">
+        <img src="@/assets/images/lucky@2x.png" alt="lucky" />
+        <h3>조편성 시드 확인</h3>
+        <p>
+          선택된 시드로 랜덤한 조 편성이 이루어집니다. <br />
+          계속하려면 진행하기 버튼을 눌러주세요!
+        </p>
+      </template>
+      <template v-else-if="modalState === 'progress'">
+        <img src="@/assets/images/lucky@2x.png" alt="lucky" />
+        <h3>조편성 시드 확인</h3>
+        <p>
+          선택된 시드로 랜덤한 조 편성이 이루어집니다. <br />
+          계속하려면 진행하기 버튼을 눌러주세요!
+        </p>
+      </template>
+      <template v-else-if="modalState === 'done'">
+        <img src="@/assets/images/lucky@2x.png" alt="lucky" />
+        <h3>조편성 시드 확인</h3>
+        <p>
+          선택된 시드로 랜덤한 조 편성이 이루어집니다. <br />
+          계속하려면 진행하기 버튼을 눌러주세요!
+        </p>
+      </template>
+      <div class="seed-check">
+        <div class="slot-roll inactive">
+          <div class="slot-input txt-0">
+            <div class="boxes" ref="b1">
+              <div class="box">{{ slots[0] }}</div>
+            </div>
+          </div>
+          <div class="slot-input txt-0">
+            <div class="boxes" ref="b2">
+              <div class="box">{{ slots[1] }}</div>
+            </div>
+          </div>
+          <div class="slot-input txt-0">
+            <div class="boxes" ref="b3">
+              <div class="box">{{ slots[2] }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span v-if="!dbAlt" class="data-stat lock txt-success">
+        DB alt state IN PROTECTION
+      </span>
+      <span v-else class="data-stat unlock txt-warning">
+        WARNING! DB alt state unlocked!
+      </span>
+      <div v-if="modalState === 'ready'" class="button-wrapper">
+        <Btn
+          type="regular"
+          color="primary-fill"
+          size="md"
+          name="계속하기"
+          @click="spin"
+        />
+        <Btn type="none" color="secondary" name="창 닫기" @click="closeModal" />
+      </div>
+      <div v-else-if="modalState === 'progress'" class="button-wrapper">
+        <Btn type="regular" color="success-fill" size="md" name="작업완료" />
+        <Btn type="none" color="secondary" name="창 닫기" @click="closeModal" />
+      </div>
+      <div v-else-if="modalState === 'done'" class="button-wrapper">
+        <Btn type="regular" color="primary-fill" size="md" name="확인" />
+        <Btn type="none" color="secondary" name="창 닫기" @click="closeModal" />
+      </div>
+    </div>
   </Modal>
 </template>
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
+import imgPath from "@/assets/images/logo-indigo@2x.png";
+
+type SlotModalType = "ready" | "progress" | "done";
+const boxStyle = {
+  display: "flex",
+  width: "100%",
+  height: "190px",
+  alignItems: "center",
+  justifyContent: "center",
+};
 
 export default defineComponent({
   name: "SlotModal",
-  emits: ["close"],
+  emits: ["closeSlot"],
   props: {
     visual: {
       type: Boolean,
@@ -19,14 +97,158 @@ export default defineComponent({
       required: true,
     },
   },
-  mounted() {
-    console.log(this.visual);
+  data() {
+    return {
+      dbAlt: true,
+      boxes: [] as HTMLDivElement[],
+      boxData: [] as string[][],
+      modalState: "progress" as SlotModalType,
+    };
+  },
+  updated() {
+    if (this.visual) {
+      console.log("mounted!");
+      this.boxes.push(this.$refs.b1 as HTMLDivElement);
+      this.boxes.push(this.$refs.b2 as HTMLDivElement);
+      this.boxes.push(this.$refs.b3 as HTMLDivElement);
+      //prepare dataset
+      for (let i = 0; i < 3; i++) {
+        this.boxData.push([...this.getRandNums(8), ""]);
+      }
+      this.boxData.forEach((arr, i) => {
+        arr.forEach((val) => {
+          const newBox = document.createElement("div");
+          newBox.classList.add("box");
+          newBox.textContent = val;
+          (Object.keys(boxStyle) as (keyof typeof boxStyle)[]).forEach(
+            (key: keyof typeof boxStyle) => {
+              newBox.style[key] = boxStyle[key];
+            }
+          );
+          this.boxes[i].appendChild(newBox);
+        });
+        const logoImg = document.createElement("img");
+        logoImg.setAttribute("src", imgPath);
+        logoImg.style.width = "50px";
+        logoImg.style.height = "50px";
+        this.boxes[i].lastChild!.appendChild(logoImg);
+        this.boxes[i].style.top = `-${190 * arr.length}px`;
+      });
+    }
   },
   methods: {
+    async spin() {
+      for (const boxlist of this.boxes) {
+        console.log("foo");
+        boxlist.classList.add("roll");
+        await this.$sleep(300);
+      }
+    },
     closeModal() {
-      this.$emit("close");
+      this.$emit("closeSlot");
+    },
+    getRandNums(count: number): string[] {
+      const rand = [];
+      for (let i = 0; i < count; i++) {
+        rand.push((Math.floor(Math.random() * 98) + 1).toString());
+      }
+      return rand;
     },
   },
 });
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.modal-wrapper {
+  text-align: center;
+
+  img {
+    height: 72px;
+    width: 72px;
+  }
+
+  h3 {
+    font-size: $font-lg;
+    margin: 30px 0;
+  }
+
+  p {
+    box-sizing: border-box;
+    font-size: $font-md;
+    padding: 0 30px;
+  }
+
+  .seed-check {
+    display: inline-block;
+    width: 100%;
+    height: auto;
+    background-color: $darkbase;
+
+    .slot-roll {
+      box-sizing: border-box;
+      border: 3px solid white;
+      border-radius: 2rem;
+      margin: 35px auto;
+      width: 530px;
+      height: 310px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .slot-input {
+        position: relative;
+        margin: 0 8px;
+        border: 3px solid $gray;
+        overflow: hidden;
+
+        .boxes {
+          position: absolute;
+          flex-direction: column-reverse;
+          box-sizing: border-box;
+          display: flex;
+          height: content-box;
+          transition: top 3s;
+          width: 100%;
+
+          .box {
+            display: flex;
+            width: 100%;
+            height: 190px;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        .roll {
+          top: 0 !important;
+        }
+      }
+    }
+  }
+
+  .data-stat {
+    position: relative;
+    display: inline-block;
+    margin-top: 35px;
+    font-size: $font-xs;
+    font-weight: lighter;
+  }
+
+  .lock:before {
+    @include psudo(15px, lock, right);
+    position: absolute;
+    top: 1px;
+    left: -20px;
+  }
+
+  .unlock:before {
+    @include psudo(15px, unlock, right);
+    position: absolute;
+    top: 1px;
+    left: -20px;
+  }
+
+  .button-wrapper {
+    margin-top: 18px;
+  }
+}
+</style>

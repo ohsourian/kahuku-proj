@@ -24,7 +24,7 @@
       color="primary-fill"
       size="md"
       name="시작하기"
-      @click="isSlotModalOn = true"
+      @click="beginSlot"
     />
     <Btn
       class="slot-action"
@@ -36,11 +36,16 @@
     <Btn
       class="slot-action"
       type="none"
+      color="primary"
       name="입력 초기화"
       @click="resetInputs"
     />
   </div>
-  <SlotModal :visual="isSlotModalOn" @close="isSlotModalOn = false" />
+  <SlotModal
+    :visual="isSlotModalOn"
+    :slots="slots"
+    @closeSlot="isSlotModalOn = false"
+  />
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -62,6 +67,20 @@ export default defineComponent({
     },
     updateSlot(value: string, index: number) {
       this.slots[index] = value;
+    },
+    beginSlot() {
+      console.log(
+        this.slots.length === 3,
+        this.slots.every((x) => x.length && !isNaN(Number(x)))
+      );
+      if (
+        this.slots.length === 3 &&
+        this.slots.every((x) => x.length && !isNaN(Number(x)))
+      ) {
+        this.isSlotModalOn = true;
+        return true;
+      }
+      // run toast
     },
   },
 });

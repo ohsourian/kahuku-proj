@@ -31,7 +31,7 @@ export default defineComponent({
   },
 });
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .overlay {
   display: flex;
   justify-content: center;
@@ -41,7 +41,8 @@ export default defineComponent({
   top: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(7px);
 }
 
 .modal-card {
@@ -49,7 +50,6 @@ export default defineComponent({
   position: relative;
   z-index: 10;
   min-width: 300px;
-  height: 500px;
 
   .card-header {
     display: flex;

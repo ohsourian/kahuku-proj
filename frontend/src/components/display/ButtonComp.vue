@@ -9,7 +9,7 @@
   >
     {{ name }}
   </button>
-  <button v-else-if="type === 'none'" :class="`${type}`">
+  <button v-else-if="type === 'none'" :class="`${type} ${noneClass}`">
     {{ name }}
   </button>
 </template>
@@ -63,6 +63,9 @@ export default defineComponent({
       }
       return "";
     },
+    noneClass(): string {
+      return `${this.type}-${this.color}`;
+    },
   },
 });
 </script>
@@ -110,7 +113,14 @@ button {
   text-decoration: underline;
   background-color: transparent;
   font-size: 18px;
-  color: $primary;
+
+  &-primary {
+    color: $primary;
+  }
+
+  &-secondary {
+    color: $secondary;
+  }
 }
 
 .info {

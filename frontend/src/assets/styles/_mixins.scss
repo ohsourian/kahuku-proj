@@ -28,3 +28,12 @@
   -webkit-text-fill-color: transparent;
   filter: drop-shadow(4px 4px #000);
 }
+
+@mixin psudo($size, $img, $direction) {
+  @include img($img);
+  content: "";
+  display: inline-block;
+  width: $size;
+  height: $size;
+  margin-#{$direction}: 10px
+}
