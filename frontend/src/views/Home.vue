@@ -16,7 +16,7 @@
         <Btn
           class="shortcut"
           type="regular"
-          color="primary-fill"
+          color="legacy"
           size="lg"
           after="down"
           name="조편성 바로가기"

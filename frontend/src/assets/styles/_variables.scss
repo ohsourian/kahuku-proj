@@ -2,29 +2,37 @@ $font-path: "@/assets/fonts";
 $img-path: "@/assets/images";
 
 // Colors
-$white: #ffffff;
-$indigo: #2c465f;
-$darkbase: #1e1e1e;
-$mediumgray: #3f3f3f;
+$light: #ffffff;
+$dark: #1e1e1e;
+$black: #000000;
+$primary: #8e2d95;
+$secondary: #5A5156;
+$success: #157F1F;
+$warning: #f6c744;
+$danger: #D12328;
+$orange: #E98A15;
+$blue: #0D6EFD;
+$info: #3d818d;
 $gray: #cccccc;
 $lightgray: #eeeeee;
-$primary: #0a84ff;
-$secondary: #6c757d;
-$info: #3d818d;
-$success: #23ce6b;
-$warning: #f6c744;
-$danger: #d4533d;
-$purple: #8e2d95;
-$orange: #db6c3f;
+
+$custom-colors: (
+        "orange": $orange,
+        "legacy": $blue,
+);
+
+
 $dimblue: #407ebd;
 $silver-text: #7e7e7e, #bcbcbc, #7e7e7e;
 
 
 // Font Size
-$font-xs: 12pt;
-$font-sm: 16pt;
-$font-md: 20pt;
-$font-lg: 28pt;
+$font-size-base: 1rem;
+$font-size-xs: $font-size-base * .6;
+$font-size-sm: $font-size-base * .875;
+$font-size-md: $font-size-base * 1.25;
+$font-size-lg: $font-size-base * 1.5;
+$font-size-xl: $font-size-base * 1.75;
 
 // Gradients
 $glass-dark: linear-gradient(45deg, rgba(#2f2f2f, 0.43), rgba(#1e1e1e, 0.43));
@@ -36,3 +44,12 @@ $roller-gradient: linear-gradient(to bottom, #bbb, #fff, #fff, #fff, #bbb);
 
 // pixels
 $glass-border: 8px;
+$btn-border-radius: 10rem;
+$btn-border-radius-lg: 10rem;
+$btn-font-size-lg: $font-size-lg;
+$btn-padding-x-lg: 75px;
+$btn-padding-y-lg: 12px;
+$btn-border-radius-sm: 5rem;
+$btn-font-size-sm: $font-size-sm;
+$btn-padding-x-sm: 15px;
+$btn-padding-y-sm: 5px;

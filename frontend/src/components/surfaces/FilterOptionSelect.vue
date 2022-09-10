@@ -115,14 +115,14 @@ export default defineComponent({
     }
 
     .option-value {
-      font-size: $font-xs;
+      font-size: $font-size-sm;
       font-weight: lighter;
     }
 
     .option-clear {
       box-sizing: border-box;
       margin-bottom: 3px;
-      font-size: $font-md;
+      font-size: $font-size-md;
     }
   }
 }

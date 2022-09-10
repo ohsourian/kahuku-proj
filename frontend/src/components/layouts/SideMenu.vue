@@ -35,7 +35,7 @@ export default defineComponent({
     align-items: center;
     margin-top: 50px;
     margin-bottom: 30px;
-    font-size: $font-xs;
+    font-size: $font-size-sm;
     font-weight: lighter;
 
     &:nth-child(1) {
@@ -43,7 +43,7 @@ export default defineComponent({
     }
 
     img {
-      height: $font-md;
+      height: $font-size-md;
       margin-right: 5px;
     }
   }
@@ -52,7 +52,7 @@ export default defineComponent({
     position: relative;
     display: block;
     padding: 16px 12px;
-    font-size: $font-sm;
+    font-size: $font-size-base;
     text-decoration: none;
     color: $gray;
 
@@ -80,14 +80,14 @@ export default defineComponent({
       width: calc(100% - 4px);
       height: calc(100% - 4px);
       border-radius: $glass-border;
-      background-color: $darkbase;
+      background-color: $dark;
       opacity: 0;
       z-index: -1;
     }
 
     &:hover,
     &:active {
-      color: $white;
+      color: $light;
     }
 
     &:hover:after,

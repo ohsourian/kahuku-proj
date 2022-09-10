@@ -1,17 +1,28 @@
+@import "bootstrap/scss/functions";
 @import "@/assets/styles/_variables.scss";
 @import "@/assets/styles/_mixins.scss";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/maps";
+
+$theme-colors: map-merge($theme-colors, $custom-colors);
+@import "bootstrap/scss/transitions";
+@import "bootstrap/scss/utilities";
+@import "bootstrap/scss/buttons";
+@import "bootstrap/scss/badge";
+@import "bootstrap/scss/alert";
 
 @include font-face('GmarketSans', 'GmarketSansLight', 300);
 @include font-face('GmarketSans', 'GmarketSansMedium');
 @include font-face('GmarketSans', 'GmarketSansBold', bold);
 body {
   margin: 0;
-  background-color: $darkbase;
+  background-color: $dark;
 }
 
 #app {
   font-family: GmarketSans, sans-serif;
-  color: $white;
+  color: $light;
 }
 
 .glass {
@@ -20,9 +31,11 @@ body {
   border-radius: $glass-border;
   padding: 20px 16px;
 
-  &-dark {
-    background-color: rgba($darkbase, 0.43);
-    box-shadow: 0 0 3px 3px rgba($darkbase, 0.43);
+  .box-label {
+    display: inline-block;
+    font-size: $font-size-sm;
+    font-weight: lighter;
+    margin-bottom: 16px;
   }
 }
 
@@ -68,7 +81,7 @@ body {
 .cc {
   display: inline-block;
   border-radius: 50%;
-  background-color: $darkbase;
+  background-color: $dark;
 
   &-20 {
     width: 20px;
@@ -105,4 +118,14 @@ body {
 
   &-512 {
   }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+
 }

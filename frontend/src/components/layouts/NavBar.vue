@@ -3,10 +3,22 @@
     <Logo class="logo" kind="kysa-logo" :size="20" @click="toggleSideMenu" />
     <h3>2022 KYSA AMS <span>Workbench</span></h3>
   </div>
+  <div id="alert-area">
+    <transition name="alert">
+      <div
+        v-if="alertShow"
+        :class="`alert alert-${alertType} alert-dismissible fade show`"
+      >
+        {{ alertMessage }}
+        <button type="button" class="btn-close" @click="hideAlert">⨯</button>
+      </div>
+    </transition>
+  </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 import Logo from "@/components/display/LogoComp.vue";
+import { BootstrapScheme } from "@/types/Alert";
 
 export default defineComponent({
   components: { Logo },
@@ -28,15 +40,34 @@ export default defineComponent({
     menuToggle(): boolean {
       return this.$store.state.menuToggle;
     },
+    alertShow(): boolean {
+      return this.$store.state.alert.isShow;
+    },
+    alertMessage(): string {
+      return this.$store.state.alert.message;
+    },
+    alertType(): BootstrapScheme {
+      return this.$store.state.alert.type;
+    },
+  },
+  watch: {
+    async alertShow(newVal) {
+      if (newVal) {
+        console.log("alert active");
+        await this.$sleep(3000);
+        this.hideAlert();
+      }
+    },
   },
   methods: {
     scrollListener() {
-      console.log(window.scrollY);
       this.scrollY = window.scrollY;
     },
     toggleSideMenu() {
       this.$store.dispatch("updateMenuState", !this.menuToggle);
-      console.log(`menu state ::: ${this.menuToggle}`);
+    },
+    hideAlert() {
+      this.$store.dispatch("hideAlert");
     },
   },
 });
@@ -44,23 +75,23 @@ export default defineComponent({
 <style lang="scss" scoped>
 .grad {
   &-20 {
-    background-color: rgba($darkbase, 0.2);
+    background-color: rgba($black, 0.2);
   }
 
   &-40 {
-    background-color: rgba($darkbase, 0.4);
+    background-color: rgba($black, 0.4);
   }
 
   &-60 {
-    background-color: rgba($darkbase, 0.6);
+    background-color: rgba($black, 0.6);
   }
 
   &-80 {
-    background-color: rgba($darkbase, 0.8);
+    background-color: rgba($black, 0.8);
   }
 
   &-100 {
-    background-color: rgba($darkbase, 1);
+    background-color: rgba($black, 1);
   }
 }
 
@@ -86,5 +117,33 @@ export default defineComponent({
       font-weight: lighter;
     }
   }
+}
+
+#alert-area {
+  position: fixed;
+  box-sizing: border-box;
+  top: 72px;
+  left: 0;
+  z-index: 9;
+  width: 100%;
+  padding: 0 25%;
+
+  .btn-close {
+    @include clean();
+    height: 100%;
+    font-size: $font-size-lg;
+    color: $gray-600;
+    cursor: pointer;
+    margin-right: 10px;
+    background-color: transparent;
+  }
+}
+
+.alert-enter-active {
+  animation: fadeIn 0.3s;
+}
+
+.alert-leave-active {
+  animation: fadeIn 0.3s reverse;
 }
 </style>

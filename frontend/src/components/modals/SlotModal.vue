@@ -10,23 +10,24 @@
         </p>
       </template>
       <template v-else-if="modalState === 'progress'">
-        <img src="@/assets/images/lucky@2x.png" alt="lucky" />
-        <h3>조편성 시드 확인</h3>
+        <img src="@/assets/images/drum@2x.png" alt="lucky" />
+        <h3>조편성 현재 진행중</h3>
         <p>
-          선택된 시드로 랜덤한 조 편성이 이루어집니다. <br />
-          계속하려면 진행하기 버튼을 눌러주세요!
+          조편성이 현재 진행중입니다. <br />
+          선택된 랜덤 시드와 여러 신청정보를 바탕으로 <br />
+          조 편성이 이루어집니다.
         </p>
       </template>
       <template v-else-if="modalState === 'done'">
-        <img src="@/assets/images/lucky@2x.png" alt="lucky" />
-        <h3>조편성 시드 확인</h3>
+        <img src="@/assets/images/party@2x.png" alt="lucky" />
+        <h3>조편성 완료</h3>
         <p>
-          선택된 시드로 랜덤한 조 편성이 이루어집니다. <br />
-          계속하려면 진행하기 버튼을 눌러주세요!
+          조 편성이 완료되었습니다! <br />
+          편성을 확인하시려면 확인하러 가기를 눌러주세요!
         </p>
       </template>
       <div class="seed-check">
-        <div class="slot-roll inactive">
+        <div class="slot-roll" :class="{ 'ne-on': modalState === 'progress' }">
           <div class="slot-input txt-0">
             <div class="boxes" ref="b1">
               <div class="box">{{ slots[0] }}</div>
@@ -53,7 +54,7 @@
       <div v-if="modalState === 'ready'" class="button-wrapper">
         <Btn
           type="regular"
-          color="primary-fill"
+          color="primary"
           size="md"
           name="계속하기"
           @click="spin"
@@ -61,11 +62,17 @@
         <Btn type="none" color="secondary" name="창 닫기" @click="closeModal" />
       </div>
       <div v-else-if="modalState === 'progress'" class="button-wrapper">
-        <Btn type="regular" color="success-fill" size="md" name="작업완료" />
+        <Btn
+          type="regular"
+          color="success"
+          size="md"
+          name="다음으로"
+          @click="changeDone"
+        />
         <Btn type="none" color="secondary" name="창 닫기" @click="closeModal" />
       </div>
       <div v-else-if="modalState === 'done'" class="button-wrapper">
-        <Btn type="regular" color="primary-fill" size="md" name="확인" />
+        <Btn type="regular" color="primary" size="md" name="확인하러 가기" />
         <Btn type="none" color="secondary" name="창 닫기" @click="closeModal" />
       </div>
     </div>
@@ -102,18 +109,24 @@ export default defineComponent({
       dbAlt: true,
       boxes: [] as HTMLDivElement[],
       boxData: [] as string[][],
-      modalState: "progress" as SlotModalType,
+      modalState: "ready" as SlotModalType,
     };
+  },
+  watch: {
+    visual(newVal) {
+      if (newVal) {
+        this.modalState = "ready";
+      }
+    },
   },
   updated() {
     if (this.visual) {
-      console.log("mounted!");
       this.boxes.push(this.$refs.b1 as HTMLDivElement);
       this.boxes.push(this.$refs.b2 as HTMLDivElement);
       this.boxes.push(this.$refs.b3 as HTMLDivElement);
       //prepare dataset
       for (let i = 0; i < 3; i++) {
-        this.boxData.push([...this.getRandNums(8), ""]);
+        this.boxData.push([...this.getRandNums(15), ""]);
       }
       this.boxData.forEach((arr, i) => {
         arr.forEach((val) => {
@@ -138,9 +151,17 @@ export default defineComponent({
   },
   methods: {
     async spin() {
+      this.modalState = "progress";
       for (const boxlist of this.boxes) {
-        console.log("foo");
         boxlist.classList.add("roll");
+        await this.$sleep(300);
+      }
+    },
+    async changeDone() {
+      this.modalState = "done";
+      for (const boxlist of this.boxes) {
+        boxlist.classList.remove("roll");
+        boxlist.classList.add("done");
         await this.$sleep(300);
       }
     },
@@ -167,13 +188,13 @@ export default defineComponent({
   }
 
   h3 {
-    font-size: $font-lg;
+    font-size: $font-size-lg;
     margin: 30px 0;
   }
 
   p {
     box-sizing: border-box;
-    font-size: $font-md;
+    font-size: $font-size-md;
     padding: 0 30px;
   }
 
@@ -181,7 +202,6 @@ export default defineComponent({
     display: inline-block;
     width: 100%;
     height: auto;
-    background-color: $darkbase;
 
     .slot-roll {
       box-sizing: border-box;
@@ -206,7 +226,6 @@ export default defineComponent({
           box-sizing: border-box;
           display: flex;
           height: content-box;
-          transition: top 3s;
           width: 100%;
 
           .box {
@@ -219,9 +238,24 @@ export default defineComponent({
         }
 
         .roll {
+          animation-duration: 3s;
+          animation-name: slotRoll;
+          animation-iteration-count: infinite;
+        }
+
+        .done {
           top: 0 !important;
         }
       }
+    }
+
+    .ne-on {
+      box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem $primary,
+        0 0 0.8rem $primary, 0 0 2.8rem $primary, inset 0 0 1.3rem $primary;
+      animation-duration: 2s;
+      animation-name: neonSign;
+      animation-iteration-count: infinite;
+      animation-direction: alternate;
     }
   }
 
@@ -229,7 +263,7 @@ export default defineComponent({
     position: relative;
     display: inline-block;
     margin-top: 35px;
-    font-size: $font-xs;
+    font-size: $font-size-sm;
     font-weight: lighter;
   }
 
@@ -249,6 +283,28 @@ export default defineComponent({
 
   .button-wrapper {
     margin-top: 18px;
+  }
+}
+
+@keyframes slotRoll {
+  70%,
+  100% {
+    top: 0;
+  }
+}
+
+@keyframes neonSign {
+  28% {
+    box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem $primary,
+      0 0 0.8rem $primary, 0 0 2.8rem $primary, inset 0 0 1.3rem $primary;
+  }
+  66% {
+    box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem $warning,
+      0 0 0.8rem $warning, 0 0 2.8rem $warning, inset 0 0 1.3rem $warning;
+  }
+  100% {
+    box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem $danger,
+      0 0 0.8rem $danger, 0 0 2.8rem $danger, inset 0 0 1.3rem $danger;
   }
 }
 </style>

@@ -26,12 +26,5 @@ main {
     min-width: 1260px;
     box-sizing: border-box;
     padding-top: 96px;
-
-    .box-label {
-      display: inline-block;
-      font-size: $font-xs;
-      font-weight: lighter;
-      margin-bottom: 16px;
-    }
   }
 }

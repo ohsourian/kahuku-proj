@@ -5,6 +5,7 @@ import store from "./store";
 import ModalComp from "@/components/display/ModalComp.vue";
 import ButtonComp from "@/components/display/ButtonComp.vue";
 import mixins from "@/mixins";
+import "bootstrap";
 
 createApp(App)
   .use(store)

@@ -1,6 +1,6 @@
 <template>
   <div v-if="isOpen" class="overlay" @click="onClose">
-    <div class="glass glass-dark modal-card">
+    <div class="glass modal-card">
       <div class="card-header">
         <span @click="onClose">⨯</span>
       </div>
@@ -62,7 +62,7 @@ export default defineComponent({
 
       &:hover,
       &:active {
-        color: $white;
+        color: $light;
       }
     }
   }

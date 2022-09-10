@@ -18,28 +18,30 @@
         @update="updateSlot($event, 2)"
       />
     </div>
-    <Btn
-      class="slot-action"
-      type="regular"
-      color="primary-fill"
-      size="md"
-      name="시작하기"
-      @click="beginSlot"
-    />
-    <Btn
-      class="slot-action"
-      type="regular"
-      color="secondary-fill"
-      size="md"
-      name="조 확인하기"
-    />
-    <Btn
-      class="slot-action"
-      type="none"
-      color="primary"
-      name="입력 초기화"
-      @click="resetInputs"
-    />
+    <div class="button-wrapper">
+      <Btn
+        class="slot-action"
+        type="regular"
+        color="primary"
+        size="fit"
+        name="시작하기"
+        @click="beginSlot"
+      />
+      <Btn
+        class="slot-action"
+        type="regular"
+        color="secondary"
+        size="fit"
+        name="조 확인하기"
+      />
+      <Btn
+        class="slot-action"
+        type="none"
+        color="primary"
+        name="입력 초기화"
+        @click="resetInputs"
+      />
+    </div>
   </div>
   <SlotModal
     :visual="isSlotModalOn"
@@ -69,10 +71,7 @@ export default defineComponent({
       this.slots[index] = value;
     },
     beginSlot() {
-      console.log(
-        this.slots.length === 3,
-        this.slots.every((x) => x.length && !isNaN(Number(x)))
-      );
+      console.log(this.$store.state.alert.isShow);
       if (
         this.slots.length === 3 &&
         this.slots.every((x) => x.length && !isNaN(Number(x)))
@@ -80,7 +79,11 @@ export default defineComponent({
         this.isSlotModalOn = true;
         return true;
       }
-      // run toast
+      this.$store.dispatch("showAlert", {
+        message: "입력정보가 올바르지 않습니다.",
+        type: "danger",
+      });
+      return false;
     },
   },
 });
@@ -106,8 +109,8 @@ export default defineComponent({
     margin: 70px 0;
     width: 530px;
     height: 310px;
-    box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #bc13fe,
-      0 0 0.8rem #bc13fe, 0 0 2.8rem #bc13fe, inset 0 0 1.3rem #bc13fe;
+    box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem $primary,
+      0 0 0.8rem $primary, 0 0 2.8rem $primary, inset 0 0 1.3rem $primary;
 
     display: flex;
     justify-content: center;
@@ -116,6 +119,11 @@ export default defineComponent({
     .slot-in {
       margin: 0 8px;
     }
+  }
+
+  .button-wrapper {
+    margin: 0 auto;
+    width: 270px;
   }
 
   .slot-action {

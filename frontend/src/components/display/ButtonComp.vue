@@ -5,7 +5,7 @@
   ></button>
   <button
     v-else-if="type === 'regular'"
-    :class="`${type} ${sizedClass} ${color} ${afterClass}`"
+    :class="`btn btn-${color} btn-${size} ${afterClass}`"
   >
     {{ name }}
   </button>
@@ -17,7 +17,7 @@
 import { defineComponent, PropType } from "vue";
 
 type BtnStyle = "round" | "pill" | "regular" | "none";
-type BtnSize = "sm" | "md" | "lg";
+type BtnSize = "sm" | "md" | "lg" | "fit";
 type BtnColor = "primary" | "info" | "warning" | "danger" | "purple";
 export default defineComponent({
   name: "ButtonComp",
@@ -71,15 +71,27 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 button {
+  @include clean();
   cursor: pointer;
-  color: $white;
+  color: $light;
+}
+
+.btn {
+  &-md {
+    font-size: $font-size-md;
+    padding: 8px 45px;
+  }
+
+  &-fit {
+    font-size: $font-size-md;
+    width: 100%;
+  }
 }
 
 .round,
 .pill {
-  @include clean();
   box-sizing: border-box;
-  border: 2px solid $white;
+  border: 2px solid $light;
   background-color: transparent;
 
   &-md {
@@ -89,27 +101,7 @@ button {
   }
 }
 
-.regular {
-  @include clean();
-  box-sizing: border-box;
-  border-radius: 10rem;
-
-  &-md {
-    font-size: 22px;
-    width: 280px;
-    height: 52px;
-  }
-
-  &-lg {
-    font-size: 32px;
-    font-weight: bold;
-    width: 380px;
-    height: 65px;
-  }
-}
-
 .none {
-  @include clean();
   text-decoration: underline;
   background-color: transparent;
   font-size: 18px;
@@ -149,15 +141,6 @@ button {
 }
 
 .primary {
-  &-fill {
-    background-color: $primary;
-
-    &:hover,
-    &:active {
-      background-color: $gray;
-    }
-  }
-
   &-wb {
     border-color: $primary;
 
@@ -174,16 +157,15 @@ button {
   }
 }
 
-.secondary {
-  &-fill {
-    background-color: $secondary;
-
-    &:hover,
-    &:active {
-      background-color: $gray;
-    }
+.success {
+  &:hover,
+  &:active {
+    border-color: $success;
+    background-color: $success;
   }
+}
 
+.secondary {
   &:hover,
   &:active {
     border-color: $primary;
@@ -260,12 +242,7 @@ button {
 
 .after {
   &-down:after {
-    @include img(down);
-    margin-left: 10px;
-    content: "";
-    display: inline-block;
-    width: 23px;
-    height: 23px;
+    @include psudo(23px, down, left);
   }
 }
 </style>

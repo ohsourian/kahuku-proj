@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
 import Home from "@/views/Home.vue";
 import GroupIndex from "@/views/GroupIndex.vue";
+import PresentView from "@/views/PresentView.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -12,6 +13,11 @@ const routes: Array<RouteRecordRaw> = [
     path: "/groups",
     name: "groupIndex",
     component: GroupIndex,
+  },
+  {
+    path: "/present",
+    name: "presentView",
+    component: PresentView,
   },
   {
     path: "/about",

@@ -18,7 +18,9 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 
-export default defineComponent({});
+export default defineComponent({
+  name: "MemberList",
+});
 </script>
 <style lang="scss" scoped>
 .user-profile {

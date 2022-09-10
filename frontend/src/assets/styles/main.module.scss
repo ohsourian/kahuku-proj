@@ -66,7 +66,7 @@ header {
   }
 
   .arrow-bottom {
-    font-size: $font-sm;
+    font-size: $font-size-base;
     margin-top: calc(15% - 5vh);
     padding-bottom: 30px;
   }
@@ -90,7 +90,7 @@ header {
     }
 
     small {
-      font-size: $font-sm;
+      font-size: $font-size-base;
       font-weight: lighter;
       letter-spacing: 0.2em;
 
@@ -118,7 +118,7 @@ header {
     }
 
     p {
-      font-size: $font-lg;
+      font-size: $font-size-lg;
       padding: 0 95px;
       line-height: 1.45;
       text-align: center;
@@ -141,7 +141,7 @@ header {
         }
 
         span {
-          font-size: $font-sm;
+          font-size: $font-size-base;
           font-weight: lighter;
         }
       }

@@ -20,6 +20,7 @@ export default defineComponent({
   box-sizing: border-box;
   height: 96px;
   width: 100%;
+  border-top: 2px solid $gray-800;
 
   span,
   a {
