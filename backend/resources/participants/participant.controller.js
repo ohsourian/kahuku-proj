@@ -1,89 +1,122 @@
 const router = require("express").Router();
 const db = require("../../providers/sequelize.provider");
 const Participant = db.participants;
+const fs = require("fs");
+const path = require("path");
+const { equal } = require("assert");
+var file_name = "group_"
 
-router.post("/", async (req, res) => {
-  const newParticipant = {
-    name: req.body.name,
-    gender: req.body.gender,
-    group: req.body.group,
-    belong: req.body.belong,
-    groupLeader: req.body.groupLeader,
-    profileColor: req.body.profileColor,
-  };
+router.post("/", async (req, res) => { // csv 파일 테이블에 넣기
+  const lists = []; //넣을 테이블 리스트
+  var group_count = 1; //조 카운트
+  while(true){ 
+    try {// 파일 계속읽기
+      const csvPath = path.join(__dirname,'../..','group_samples',file_name + group_count+".csv"); //파일 path
+      const csv = fs.readFileSync(csvPath,"utf-8");
+      const rows = csv.split("\n") // 줄별로 나누기
+      for (let i = 1; i < rows.length - 1; i++) { // 한줄씩 읽어오기
+        const colums = rows[i].split(",")
+        var gender = 0;
+        if (colums[2] == "남"){
+          gender = 0;
+        }else{
+          gender = 1;
+        }
+        const newParticipant = {
+          name: colums[1],
+          gender: gender,
+          group: group_count,
+          belong: colums[4]+"_"+colums[5],
+          groupLeader: 0,
+          profileColor: "#000000",
+        };
+        lists.push(newParticipant);
+      }
+      group_count++;
+    }catch (e) { //더 이상 읽을 파일없으면 끝내기
+      break;
+    }
+  }
   try {
-    await Participant.create(newParticipant);
+    await Participant.bulkCreate(lists); // 테이블 update
+    return res.send("group successfully created");
+  } catch (e) {
+    return res.status(500).send("db err1");
+  }
+});
+
+router.post("/:id/profileColor", async (req, res) => { // 컬러 업데이트
+  const id = req.params.id; // 조
+  const profileColor = req.body.profileColor;
+  try {
+    await Participant.update({profileColor:profileColor},{where:{id:id}});
     return res.send("success");
   } catch (e) {
-    return res.status(500).send("db err");
+    return res.status(500).send("db err1");
+  }
+});
+
+router.post("/:id/groupLeader", async (req, res) => { // 조장 여부 업데이트
+  const id = req.params.id; // 조
+  const groupLeader = req.body.groupLeader;
+  try {
+    await Participant.update({groupLeader:groupLeader},{where:{id:id}});
+    return res.send("success");
+  } catch (e) {
+    return res.status(500).send("db err1");
   }
 });
 
 router.get("/", async (req, res) => { 
   try {
     var { page } = req.query; // 페이지
-    const { name } = req.query; // 이름
     const { group } = req.query; // 조
+    const { name } = req.query; // 이름
     var groupNum = []; // 불러올 조들 리스트
-    const members = [] // 각각의 조
-
-    page = page*2-1 // 페이지 계산식
-
+  
+    page = page*6-5 // 페이지 계산식
     const resData = {};
     if(group == null){ // 기본페이지 네이션
-      for (let i = page; i < parseInt(page)+2; i++) {
-        console.log(i+"   "+page);
+      for (let i = page; i < parseInt(page)+6; i++) {
         groupNum.push(i)
       }
-      console.log(groupNum);
     }else{ // 특정한 조 검색
-      console.log(groupNum);
+      const items = group.split(",")
+      for (let i = 0; i < items.length; i++) {
+        groupNum.push(items[i])
+      }
     }
 
+    console.log("조회할 그룹"+groupNum);
     const data = await Participant.findAll({
       where: {
         group: groupNum
       },
       raw:true
     });
-  
 
-
-  if(group == null){ 
-    var count = page;
-    for (let i = page; i < parseInt(page)+2; i++) {
-      for (let i = 0; i < data.length; i++) {
-        if(data[i].group == count){
-          members.push(data[i]);
+    // 데이터 가공
+    var members = [];
+    for (let i = 0; i < groupNum.length; i++) {
+      for (let j = 0; j < data.length; j++) {
+        if(data[j].group == groupNum[i]){
+          members.push(data[j]);
         };
       };
-      count++;
-      resData[i] = {members:members};
+      if(members.length != 0){
+        resData[groupNum[i]] = {members:members};
+      }
+      members = [];
     }
     return res.send(resData);
-  }else{
-    return res.send(resData);
-    // for (let i = page; i < parseInt(page)+2; i++) {
-    //   for (let i = 0; i < data.length; i++) {
-    //     if(data[i].group == count){
-    //       members.push(data[i]);
-    //     };
-    //   };
-    //   count++;
-    //   resData[i] = {members:members};
-    // }
-    // return res.send(resData);
-  }
-    
 
-    
   } catch (e) {
     console.error(e);
     return res.status(500).send("db err");
   }
 });
 
-router.get("/:group", async (req, res) => { 
+router.get("/:group", async (req, res) => {  // 그룹 하나부르기
   try {
     const group = req.params.group; // 조
     const members = [] // 각각의 조
@@ -99,8 +132,8 @@ router.get("/:group", async (req, res) => {
     for (let i = 0; i < data.length; i++) {
         members.push(data[i]);
     };
-     resData[group] = {members:members};
-
+    
+    resData[group] = {members:members};
     return res.send(resData);
   
   } catch (e) {
@@ -109,7 +142,7 @@ router.get("/:group", async (req, res) => {
   }
 });
 
-router.delete("/", async (req, res) => {
+router.delete("/", async (req, res) => { //전체 테이블 삭제
   try {
     await Participant.destroy({
       where: {},
@@ -123,30 +156,3 @@ router.delete("/", async (req, res) => {
 });
 
 module.exports = router;
-
-
-//TODO
-/*
-
-1. 페이지 조 6개씩 API (페이지)
-2. 조하나 조회 API
-3. 그룹필터
-4. 이름필터
-
-page:
-group:
-
-1 3 5 7 9 11 
-13 15
-
-
-real todo
-
-0. 데이터 가공후 1 하기
-1. create 하기
-2. 처음 페이지 api 만들기 1-50 조
-3. 이름필터 
-
-*/
-
-
