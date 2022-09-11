@@ -1,7 +1,7 @@
 const dbConfig = require("../config/database.config");
 const { Sequelize } = require("sequelize");
 const Models = require("../resources/index.model");
-const { Cat } = Models;
+const { Participant } = Models;
 const seq = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
   host: dbConfig.host,
   port: Number(dbConfig.port),
@@ -10,5 +10,5 @@ const seq = new Sequelize(dbConfig.db, dbConfig.user, dbConfig.password, {
 
 module.exports = {
   sequelize: seq,
-  cats: Cat(seq, Sequelize),
+  participants: Participant(seq, Sequelize),
 };
