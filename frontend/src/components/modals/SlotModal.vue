@@ -72,7 +72,13 @@
         <Btn type="none" color="secondary" name="창 닫기" @click="closeModal" />
       </div>
       <div v-else-if="modalState === 'done'" class="button-wrapper">
-        <Btn type="regular" color="primary" size="md" name="확인하러 가기" />
+        <Btn
+          type="router"
+          to="/present"
+          color="primary"
+          size="md"
+          name="확인하러 가기"
+        />
         <Btn type="none" color="secondary" name="창 닫기" @click="closeModal" />
       </div>
     </div>

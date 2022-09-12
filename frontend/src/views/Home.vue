@@ -27,8 +27,8 @@
       <div class="contents-header">
         <img src="@/assets/images/chip@2x.png" alt="chip-ams" />
         <small class="sequence">
-          <span class="emp">A</span>CTIVE <span class="emp">M</span>ATCH-UP
-          <span class="emp">S</span>EQUENCE
+          <span class="emp">A</span>UTOMATED <span class="emp">G</span>ROUP
+          <span class="emp">G</span>ENERATOR
         </small>
         <h3>
           <span class="sub">여러분과 3일간 함께 지낼 조원을</span><br />
@@ -36,14 +36,14 @@
         </h3>
         <p>
           청년대회 조 편성이 여기서 즉석으로 이루어 집니다. <br />
-          신청 과정에서 여러분이 작성해주신 선호도와 성별 및 나이를 포함한 각종
-          정보를 반영하여, 액티브 매치-업 시퀀스는 현장에서 랜덤 시드를 받아 그
+          신청 과정에서 여러분이 작성해주신 성별 및 나이를 포함한 여러 정보를
+          반영하여, 자동 그룹 생성 알고리즘은 현장에서 랜덤 시드를 받아 그
           자리에서 즉시 난수화 하여 16명씩 한 조로 배정합니다.
         </p>
         <ul>
           <li>
-            <img src="@/assets/images/preference@2x.png" alt="pref" /><br />
-            <span>선호도 반영</span>
+            <img src="@/assets/images/automated@2x.png" alt="auto" /><br />
+            <span>프로세스 자동화</span>
           </li>
           <li>
             <img src="@/assets/images/lucky@2x.png" alt="luck" /><br />

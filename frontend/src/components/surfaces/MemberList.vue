@@ -6,20 +6,41 @@
       alt="profile-image"
     />
     <div class="p-name">
-      <p class="name">홍길동<span>형제</span></p>
-      <p class="org">서울 스테이크</p>
+      <p class="name">
+        {{ member.name }}<span>{{ broSis }}</span>
+      </p>
+      <p class="org">{{ parseStake }}</p>
     </div>
-    <div class="p-setting">
+    <div v-if="!noOp" class="p-setting">
       <Btn type="round" color="info-wb" size="md" name="brush" />
       <Btn type="round" color="warning-wb" size="md" name="crown" />
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, PropType } from "vue";
+import { Member } from "@/types/Member";
 
 export default defineComponent({
   name: "MemberList",
+  props: {
+    member: {
+      type: Object as PropType<Member>,
+      required: true,
+    },
+    noOp: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    broSis(): string {
+      return this.member.gender ? "자매" : "형제";
+    },
+    parseStake(): string {
+      return this.member.belong.split("_").shift() ?? this.member.belong;
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

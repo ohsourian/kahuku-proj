@@ -6,8 +6,12 @@ import ModalComp from "@/components/display/ModalComp.vue";
 import ButtonComp from "@/components/display/ButtonComp.vue";
 import mixins from "@/mixins";
 import "bootstrap";
+import ApiService from "@/services/api.service";
 
-createApp(App)
+const apiService = new ApiService();
+const app = createApp(App);
+app.config.globalProperties.$api = apiService;
+app
   .use(store)
   .use(router)
   .mixin(mixins)

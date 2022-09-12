@@ -15,8 +15,7 @@ router.post("/", async (req, res) => {
     try {
       // 파일 계속읽기
       const csvPath = path.join(
-        __dirname,
-        "../..",
+        process.cwd(),
         filePath,
         FILE_NAME_PREFIX + cnt + ".csv"
       ); //파일 path
@@ -105,7 +104,6 @@ router.get("/", async (req, res) => {
       }
     }
 
-    console.log("조회할 그룹" + groupNum);
     const data = await Participant.findAll({
       where: {
         group: groupNum,
@@ -133,7 +131,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:group", async (req, res) => {
+router.get("/group/:group", async (req, res) => {
   // 그룹 하나부르기
   try {
     const group = req.params.group; // 조

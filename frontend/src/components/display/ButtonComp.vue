@@ -9,6 +9,12 @@
   >
     {{ name }}
   </button>
+  <router-link
+    v-else-if="type === 'router'"
+    :class="`btn btn-${color} btn-${size} ${afterClass}`"
+    :to="link"
+    >{{ name }}
+  </router-link>
   <button v-else-if="type === 'none'" :class="`${type} ${noneClass}`">
     {{ name }}
   </button>
@@ -16,7 +22,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 
-type BtnStyle = "round" | "pill" | "regular" | "none";
+type BtnStyle = "round" | "pill" | "regular" | "router" | "none";
 type BtnSize = "sm" | "md" | "lg" | "fit";
 type BtnColor = "primary" | "info" | "warning" | "danger" | "purple";
 export default defineComponent({
@@ -39,6 +45,10 @@ export default defineComponent({
       required: true,
     },
     after: {
+      type: String,
+      default: "",
+    },
+    link: {
       type: String,
       default: "",
     },
@@ -168,8 +178,8 @@ button {
 .secondary {
   &:hover,
   &:active {
-    border-color: $primary;
-    background-color: $primary;
+    border-color: $secondary;
+    background-color: $secondary;
   }
 }
 
@@ -238,6 +248,18 @@ button {
 
 .person {
   @include img(person);
+}
+
+.circle-right {
+  @include img(circle-right);
+}
+
+.circle-left {
+  @include img(circle-left);
+}
+
+.home {
+  @include img(home);
 }
 
 .after {

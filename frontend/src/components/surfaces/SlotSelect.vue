@@ -29,7 +29,8 @@
       />
       <Btn
         class="slot-action"
-        type="regular"
+        type="router"
+        link="/groups"
         color="secondary"
         size="fit"
         name="조 확인하기"

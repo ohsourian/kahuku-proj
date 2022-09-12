@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="contents">
-      <div class="fill fill-left"></div>
+      <div class="fill fill-left" @click="updateMembers(groupIdx - 1)"></div>
       <div class="center">
         <div class="glass remote">
           <span class="box-label">탐색 패널</span>
@@ -17,37 +17,97 @@
             </section>
             <section class="button-area">
               <span class="section-title">바로가기</span>
-              <Btn type="regular" color="primary" size="sm" name="이전 조" />
-              <Btn type="regular" color="warning" size="sm" name="다음 조" />
-              <Btn type="regular" color="secondary" size="sm" name="메인으로" />
+              <Btn
+                type="pill"
+                color="secondary"
+                size="md"
+                name="circle-left"
+                @click="updateMembers(groupIdx - 1)"
+              />
+              <Btn
+                type="pill"
+                color="secondary"
+                size="md"
+                name="circle-right"
+                @click="updateMembers(groupIdx + 1)"
+              />
+              <Btn type="pill" color="primary" size="md" name="home" />
             </section>
           </div>
         </div>
-        <div class="glass group-table">
-          <span class="box-label">1조</span>
+        <div class="glass group-table" ref="member-result">
+          <span class="box-label">조 편성 결과</span>
+          <div class="group-title">
+            <span class="group-number">{{ groupIdx }}</span>
+          </div>
           <div class="member-list">
             <div class="column">
-              <MemberList v-for="index in 8" :key="index" />
+              <MemberList
+                v-for="index in firstHalf"
+                :key="index"
+                :member="members[index - 1]"
+                :no-op="true"
+              />
             </div>
             <div class="column">
-              <MemberList v-for="index in 8" :key="index" />
+              <MemberList
+                v-for="index in members.length - firstHalf"
+                :key="index"
+                :member="members[index - 1 + firstHalf]"
+                :no-op="true"
+              />
             </div>
           </div>
         </div>
       </div>
-      <div class="fill fill-right"></div>
+      <div class="fill fill-right" @click="updateMembers(groupIdx + 1)"></div>
     </div>
   </main>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 import MemberList from "@/components/surfaces/MemberList.vue";
+import { Member } from "@/types/Member";
 
 export default defineComponent({
   name: "PresentView",
   components: { MemberList },
   data() {
-    return {};
+    return {
+      groupIdx: 1,
+      members: [] as Member[],
+    };
+  },
+  computed: {
+    firstHalf(): number {
+      return Math.floor(this.members.length / 2);
+    },
+  },
+  async mounted() {
+    this.members = await this.$api.getGroupById(1);
+    console.log(this.members.length, this.firstHalf);
+  },
+  methods: {
+    async updateMembers(index: number) {
+      if (0 < index && index < 37) {
+        const newMem = await this.$api.getGroupById(index);
+        // animate table
+        const prevList = this.$refs["member-result"] as HTMLDivElement;
+        const direction = this.groupIdx < index ? "move-right" : "move-left";
+        prevList.classList.add(direction);
+        await this.$sleep(500);
+        prevList.classList.remove(direction);
+        // renew data
+        this.groupIdx = index;
+        this.members = newMem;
+        return true;
+      }
+      this.$store.dispatch("showAlert", {
+        message: "지정된 조 범위를 초과하는 요청입니다.",
+        type: "danger",
+      });
+      return false;
+    },
   },
 });
 </script>
@@ -58,6 +118,9 @@ main {
   height: calc(100vh - 148px);
   padding-top: 52px;
   overflow: auto;
+  background-image: url("#{$img-path}/present-bg@1x.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .contents {
@@ -66,19 +129,18 @@ main {
 
   .fill {
     flex: 1;
+    cursor: pointer;
 
     &-left {
-      background-color: #f6c744;
     }
 
     &-right {
-      background-color: #8e2d95;
     }
   }
 }
 
 .remote {
-  margin-bottom: 23%;
+  margin-bottom: 13%;
 
   .remote-btns {
     display: flex;
@@ -97,6 +159,69 @@ main {
         font-size: $font-size-sm;
         font-weight: lighter;
       }
+    }
+
+    .button-area {
+      button {
+        margin-right: 18px;
+
+        &:nth-last-child(1) {
+          margin-right: 0 !important;
+        }
+      }
+    }
+  }
+}
+
+.group-table {
+  position: relative;
+  margin: 0 50px;
+  z-index: 0;
+
+  &:before {
+    @include img(beach-glass);
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+  }
+
+  .group-title {
+    width: 180px;
+    height: 65px;
+    font-size: $font-size-db;
+    background-color: $gray-600;
+    margin: 0 auto 30px auto;
+    border-radius: 10rem;
+    border: $gray-600 solid 4px;
+
+    .group-number {
+      position: relative;
+      display: inline-block;
+      width: 67%;
+      height: 100%;
+      text-align: center;
+      line-height: 65px;
+      border-radius: 10rem;
+      background-image: linear-gradient(45deg, #202020, #1f1f1f);
+
+      &:after {
+        position: absolute;
+        content: "조";
+        top: 0;
+        left: 135px;
+      }
+    }
+  }
+
+  .member-list {
+    display: flex;
+
+    .column {
+      width: 320px;
     }
   }
 }
@@ -126,21 +251,36 @@ main {
     position: absolute;
     content: "조";
     color: $light;
-    top: 9px;
+    top: 0;
     left: 125px;
+    line-height: 22px;
     font-size: $font-size-sm;
   }
 }
 
-.group-table {
-  margin: 0 50px;
+.move {
+  &-left {
+    animation-name: disappearLeft;
+    animation-duration: 0.5s;
+  }
 
-  .member-list {
-    display: flex;
+  &-right {
+    animation-name: disappearRight;
+    animation-duration: 0.5s;
+  }
+}
 
-    .column {
-      width: 320px;
-    }
+@keyframes disappearLeft {
+  to {
+    transform: translateX(-100px);
+    opacity: 0;
+  }
+}
+
+@keyframes disappearRight {
+  to {
+    transform: translateX(100px);
+    opacity: 0;
   }
 }
 </style>

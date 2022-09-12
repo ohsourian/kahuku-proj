@@ -1,7 +1,7 @@
 <template>
   <div id="nav" :class="bgGradient">
     <Logo class="logo" kind="kysa-logo" :size="20" @click="toggleSideMenu" />
-    <h3>2022 KYSA AMS <span>Workbench</span></h3>
+    <h3>2022 KYSA AGG <span>Workbench</span></h3>
   </div>
   <div id="alert-area">
     <transition name="alert">

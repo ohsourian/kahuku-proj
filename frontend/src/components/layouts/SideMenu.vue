@@ -12,7 +12,7 @@
     </div>
     <a class="menu-item" href="http://naver.com" target="_blank"> KYSA 공식 </a>
     <a class="menu-item" href="http://naver.com" target="_blank"> Instagram </a>
-    <a class="menu-item" href="http://naver.com" target="_blank"> NewsRoom </a>
+    <a class="menu-item" href="http://naver.com" target="_blank"> Facebook </a>
   </div>
 </template>
 <script lang="ts">
