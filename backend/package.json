@@ -5,7 +5,8 @@
   "scripts": {
     "start": "node app.js",
     "develop": "nodemon app.js",
-    "test": "node ./tests/gdrive.test.js"
+    "test": "node ./tests/gdrive.test.js",
+    "cmd": "node ./commands/index.js"
   },
   "dependencies": {
     "@google-cloud/local-auth": "2.1.0",

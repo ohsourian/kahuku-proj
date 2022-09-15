@@ -1,58 +1,6 @@
 const router = require("express").Router();
 const db = require("../../providers/sequelize.provider");
 const Participant = db.participants;
-const fs = require("fs");
-const path = require("path");
-const filePath = process.env.CSV_SRC_PATH;
-const FILE_NAME_PREFIX = "group_";
-
-router.post("/", async (req, res) => {
-  // csv 파일 테이블에 넣기
-  const groupStart = Number(req.body.begin);
-  const groupCnt = Number(req.body.end);
-  for (let cnt = groupStart; cnt <= groupCnt; cnt++) {
-    const lists = [];
-    try {
-      // 파일 계속읽기
-      const csvPath = path.join(
-        process.cwd(),
-        filePath,
-        FILE_NAME_PREFIX + cnt + ".csv"
-      ); //파일 path
-      const csv = fs.readFileSync(csvPath, "utf-8");
-      const rows = csv.split("\n"); // 줄별로 나누기
-      for (let i = 1; i < rows.length - 1; i++) {
-        // 한줄씩 읽어오기
-        const colums = rows[i].split(",");
-        var gender = 0;
-        if (colums[2] == "남") {
-          gender = 0;
-        } else {
-          gender = 1;
-        }
-        const newParticipant = {
-          name: colums[1],
-          gender: gender,
-          group: cnt,
-          belong: colums[4] + "_" + colums[5],
-          groupLeader: 0,
-          profileColor: "#000000",
-        };
-        lists.push(newParticipant);
-      }
-      try {
-        await Participant.bulkCreate(lists); // 테이블 update
-      } catch (e) {
-        return res.status(500).send("db err1");
-      }
-    } catch (e) {
-      //더 이상 읽을 파일없으면 끝내기
-      console.log("no file found!");
-      break;
-    }
-  }
-  return res.send("group successfully created");
-});
 
 router.put("/:id/color", async (req, res) => {
   // 컬러 업데이트
@@ -150,20 +98,6 @@ router.get("/group/:group", async (req, res) => {
     }
     resData[group] = { members: members };
     return res.send(resData);
-  } catch (e) {
-    console.error(e);
-    return res.status(500).send("db err");
-  }
-});
-
-router.delete("/", async (req, res) => {
-  //전체 테이블 삭제
-  try {
-    await Participant.destroy({
-      where: {},
-      truncate: true,
-    });
-    return res.send("destroy success");
   } catch (e) {
     console.error(e);
     return res.status(500).send("db err");
