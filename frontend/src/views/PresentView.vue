@@ -1,7 +1,15 @@
 <template>
   <main>
     <div class="contents">
-      <div class="fill fill-left" @click="updateMembers(groupIdx - 1)"></div>
+      <div class="fill fill-left" @click="updateMembers(groupIdx - 1)">
+        <img src="@/assets/images/left@2x.png" alt="" />
+        <p>
+          <span style="--i: 1">P</span>
+          <span style="--i: 2">R</span>
+          <span style="--i: 3">E</span>
+          <span style="--i: 4">V</span>
+        </p>
+      </div>
       <div class="center">
         <div class="glass remote">
           <span class="box-label">탐색 패널</span>
@@ -10,9 +18,19 @@
               <span class="section-title">조 번호로 검색</span>
               <div class="d-flex align-items-center">
                 <span class="input">
-                  <input type="text" />
+                  <input
+                    v-model="searchIdx"
+                    type="number"
+                    @keydown.enter="searchByGroup"
+                  />
                 </span>
-                <Btn type="regular" color="legacy" size="sm" name="검색" />
+                <Btn
+                  type="regular"
+                  color="legacy"
+                  size="sm"
+                  name="검색"
+                  @click="searchByGroup"
+                />
               </div>
             </section>
             <section class="button-area">
@@ -60,7 +78,15 @@
           </div>
         </div>
       </div>
-      <div class="fill fill-right" @click="updateMembers(groupIdx + 1)"></div>
+      <div class="fill fill-right" @click="updateMembers(groupIdx + 1)">
+        <p>
+          <span style="--i: 1">N</span>
+          <span style="--i: 2">E</span>
+          <span style="--i: 3">X</span>
+          <span style="--i: 4">T</span>
+        </p>
+        <img src="@/assets/images/right@2x.png" alt="" />
+      </div>
     </div>
   </main>
 </template>
@@ -75,6 +101,7 @@ export default defineComponent({
   data() {
     return {
       groupIdx: 1,
+      searchIdx: "",
       members: [] as Member[],
     };
   },
@@ -93,7 +120,7 @@ export default defineComponent({
         const newMem = await this.$api.getGroupById(index);
         // animate table
         const prevList = this.$refs["member-result"] as HTMLDivElement;
-        const direction = this.groupIdx < index ? "move-right" : "move-left";
+        const direction = this.groupIdx < index ? "move-left" : "move-right";
         prevList.classList.add(direction);
         await this.$sleep(500);
         prevList.classList.remove(direction);
@@ -102,6 +129,29 @@ export default defineComponent({
         this.members = newMem;
         return true;
       }
+      return this.showOverflowErr();
+    },
+    async searchByGroup() {
+      if (!isNaN(Number(this.searchIdx))) {
+        const index = Number(this.searchIdx);
+        if (0 < index && index < 37) {
+          const newMem = await this.$api.getGroupById(index);
+          // animate table
+          const prevList = this.$refs["member-result"] as HTMLDivElement;
+          const direction = this.groupIdx < index ? "move-left" : "move-right";
+          prevList.classList.add(direction);
+          await this.$sleep(500);
+          prevList.classList.remove(direction);
+          // renew data
+          this.groupIdx = index;
+          this.members = newMem;
+          return true;
+        }
+        this.searchIdx = "";
+      }
+      return this.showOverflowErr();
+    },
+    showOverflowErr() {
       this.$store.dispatch("showAlert", {
         message: "지정된 조 범위를 초과하는 요청입니다.",
         type: "danger",
@@ -129,12 +179,43 @@ main {
 
   .fill {
     flex: 1;
+    display: flex;
     cursor: pointer;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0 50px;
 
     &-left {
+      img {
+        margin-right: 30px;
+      }
     }
 
     &-right {
+      justify-content: flex-end;
+
+      img {
+        margin-left: 30px;
+      }
+    }
+
+    &:hover {
+      p span {
+        display: inline-block;
+        animation: textWave 1s infinite;
+        animation-delay: calc(0.1s * var(--i));
+      }
+    }
+
+    p {
+      font-size: $font-size-xl;
+      font-weight: bold;
+      letter-spacing: 5px;
+    }
+
+    img {
+      width: $font-size-db;
+      height: $font-size-db;
     }
   }
 }
@@ -247,6 +328,12 @@ main {
     text-align: center;
   }
 
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
   &:after {
     position: absolute;
     content: "조";
@@ -281,6 +368,17 @@ main {
   to {
     transform: translateX(100px);
     opacity: 0;
+  }
+}
+
+@keyframes textWave {
+  0%,
+  40%,
+  100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-20px);
   }
 }
 </style>
