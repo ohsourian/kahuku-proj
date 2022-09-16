@@ -7,3 +7,8 @@ export interface Member {
   color: string;
   isRep: boolean;
 }
+
+export interface Group {
+  id: number;
+  members: Member[];
+}

@@ -1,16 +1,14 @@
 const router = require("express").Router();
 const db = require("../../providers/sequelize.provider");
+const { Op } = require("sequelize");
 const Participant = db.participants;
 
 router.put("/:id/color", async (req, res) => {
   // 컬러 업데이트
   const id = req.params.id; // 조
-  const profileColor = req.body.profileColor;
+  const color = req.body.color;
   try {
-    await Participant.update(
-      { profileColor: profileColor },
-      { where: { id: id } }
-    );
+    await Participant.update({ profileColor: color }, { where: { id: id } });
     return res.send("success");
   } catch (e) {
     return res.status(500).send("db err1");
@@ -20,12 +18,9 @@ router.put("/:id/color", async (req, res) => {
 router.put("/:id/leader", async (req, res) => {
   // 조장 여부 업데이트
   const id = req.params.id; // 조
-  const groupLeader = req.body.groupLeader;
+  const leader = req.body.leader;
   try {
-    await Participant.update(
-      { groupLeader: groupLeader },
-      { where: { id: id } }
-    );
+    await Participant.update({ groupLeader: leader }, { where: { id: id } });
     return res.send("success");
   } catch (e) {
     return res.status(500).send("db err1");
@@ -34,31 +29,46 @@ router.put("/:id/leader", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const { page, group, name } = req.query; // 페이지
+    const { page = 1, group, name } = req.query; // 페이지
     let groupNum = []; // 불러올 조들 리스트
 
-    const groupPage = page * 6 - 5; // 페이지 계산식
     const resData = {};
-    if (group == null) {
-      // 기본페이지 네이션
-      for (let i = groupPage; i < parseInt(groupPage) + 6; i++) {
-        groupNum.push(i);
+
+    if (name == null) {
+      // 이름 검색아닐시
+      let groupPage = page * 6 - 5; // 페이지 계산식
+      if (group == null) {
+        for (let i = groupPage; i < parseInt(groupPage) + 6; i++) {
+          groupNum.push(i);
+        }
+      } else {
+        // 특정한 조 검색
+        const items = group.split(",");
+        for (let i = 0; i < items.length; i++) {
+          groupNum.push(items[i]);
+        }
       }
     } else {
-      // 특정한 조 검색
-      const items = group.split(",");
-      for (let i = 0; i < items.length; i++) {
-        groupNum.push(items[i]);
+      // 이름 검색일시
+      const data = await Participant.findAll({
+        where: {
+          name: {
+            [Op.like]: "%" + name + "%",
+          },
+        },
+      });
+
+      for (let i = 0; i < data.length; i++) {
+        groupNum.push(data[i].group);
       }
     }
-
+    console.log("조회할 그룹" + groupNum);
     const data = await Participant.findAll({
       where: {
         group: groupNum,
       },
       raw: true,
     });
-
     // 데이터 가공
     var members = [];
     for (let i = 0; i < groupNum.length; i++) {

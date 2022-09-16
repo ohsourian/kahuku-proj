@@ -1,14 +1,23 @@
 <template>
   <div class="glass group-layout">
-    <span class="box-label">1조</span>
-    <MemberList v-for="index in 16" :key="index" />
+    <span class="box-label">{{ group.id }} 조</span>
+    <MemberList
+      v-for="(member, index) in group.members"
+      :member="member"
+      :key="`g${group.id}_${index}`"
+    />
   </div>
 </template>
 <script lang="ts">
 import MemberList from "@/components/surfaces/MemberList.vue";
+import { PropType } from "vue";
+import { Group } from "@/types/Member";
 
 export default {
   components: { MemberList },
+  props: {
+    group: { type: Object as PropType<Group>, required: true },
+  },
 };
 </script>
 <style lang="scss" scoped>

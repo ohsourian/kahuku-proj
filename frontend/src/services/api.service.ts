@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Member } from "@/types/Member";
+import { Group, Member } from "@/types/Member";
 
 const baseURL = process.env.VUE_APP_SERVICE_API_URL;
 export default class ApiService {
@@ -12,22 +12,49 @@ export default class ApiService {
     });
   }
 
+  private fetchMember(raw: any): Member {
+    const { id, name, gender, group, belong, profileColor, groupLeader } = raw;
+    return {
+      id,
+      name,
+      gender,
+      group,
+      belong,
+      color: profileColor,
+      isRep: groupLeader,
+    } as Member;
+  }
+
   async getGroupById(id: number): Promise<Member[]> {
     const res = await this.axios.get(`/api/participant/group/${id}`);
     const members = res.data[id]?.members;
     if (members && members.length) {
-      return members.map((member: any) => {
-        const { id, name, gender, group, belong, profileColor, groupLeader } =
-          member;
+      return members.map((member: any) => this.fetchMember(member));
+    }
+    return [];
+  }
+
+  async fetchGroup(
+    query:
+      | {
+          page?: number;
+          group?: string[];
+          name?: string;
+        }
+      | undefined = undefined
+  ): Promise<Group[]> {
+    const res: { [key: string]: any } = await this.axios.get(
+      `/api/participant`,
+      { params: query }
+    );
+    const groups = res.data;
+    if (groups) {
+      return Object.keys(groups).map((gid) => {
+        const gRaw = groups[gid];
         return {
-          id,
-          name,
-          gender,
-          group,
-          belong,
-          color: profileColor,
-          isRep: groupLeader,
-        } as Member;
+          id: Number(gid),
+          members: gRaw.members.map((member: any) => this.fetchMember(member)),
+        } as Group;
       });
     }
     return [];

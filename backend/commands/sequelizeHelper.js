@@ -26,19 +26,14 @@ async function fetchData(begin, end) {
       for (let i = 1; i < rows.length - 1; i++) {
         // 한줄씩 읽어오기
         const colums = rows[i].split(",");
-        var gender = 0;
-        if (colums[2] == "남") {
-          gender = 0;
-        } else {
-          gender = 1;
-        }
+        let gender = colums[2] === "남" ? 0 : 1;
         const newParticipant = {
           name: colums[1],
           gender: gender,
           group: cnt,
           belong: colums[4] + "_" + colums[5],
           groupLeader: 0,
-          profileColor: "#000000",
+          profileColor: gender === 0 ? "#91cefa" : "#e18ca0",
         };
         lists.push(newParticipant);
       }
