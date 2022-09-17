@@ -2,7 +2,7 @@
   <main>
     <section class="main">
       <div class="contents">
-        <FilterOptionSelect />
+        <!--        <FilterOptionSelect />-->
         <div class="board" ref="board">
           <GroupCard
             v-for="(group, index) in groups"
@@ -11,21 +11,23 @@
           />
           <div v-if="onPageLoad">LOADNING....</div>
         </div>
-        <GroupFilterModal />
+        <!--        <GroupFilterModal />-->
+        <!--        <GroupLeaderModal v-if="groups.length" :member="first" :visual="true" />-->
       </div>
     </section>
   </main>
 </template>
 <script lang="ts">
-import FilterOptionSelect from "@/components/surfaces/FilterOptionSelect.vue";
 import GroupCard from "@/components/surfaces/GroupCard.vue";
-import GroupFilterModal from "@/components/modals/GroupFilterModal.vue";
 import { defineComponent } from "vue";
-import { Group } from "@/types/Member";
+import { Group, Member } from "@/types/Member";
+import FilterOptionSelect from "@/components/surfaces/FilterOptionSelect.vue";
+import GroupFilterModal from "@/components/modals/GroupFilterModal.vue";
+import GroupLeaderModal from "@/components/modals/GroupLeaderModal.vue";
 
 export default defineComponent({
   name: "GroupIndex",
-  components: { GroupFilterModal, FilterOptionSelect, GroupCard },
+  components: { GroupCard },
   data() {
     return {
       params: {} as {
@@ -42,9 +44,15 @@ export default defineComponent({
     window.addEventListener("scroll", this.handleScroll);
     this.onPageLoad = true;
     await this.fetchGroup();
+    console.log(this.first);
   },
   unmounted() {
     window.removeEventListener("scroll", this.handleScroll);
+  },
+  computed: {
+    first(): Member {
+      return this.groups[0].members[0];
+    },
   },
   methods: {
     async fetchGroup(delay = 0) {
@@ -79,6 +87,16 @@ export default defineComponent({
 </script>
 <style lang="scss" scoped>
 @import "@/assets/styles/groups.modules.scss";
+
+main {
+  flex: 1;
+  padding-left: 60px;
+  padding-right: 60px;
+  background-image: url("#{$img-path}/bg-group-index@1x.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
 
 .board {
   margin: 3rem 0;

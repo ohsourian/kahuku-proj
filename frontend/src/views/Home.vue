@@ -20,10 +20,11 @@
           size="lg"
           after="down"
           name="조편성 바로가기"
+          @click="scrollContents"
         />
       </div>
     </header>
-    <div class="contents">
+    <div class="contents" ref="contents">
       <div class="contents-header">
         <img src="@/assets/images/chip@2x.png" alt="chip-ams" />
         <small class="sequence">
@@ -68,6 +69,12 @@ import SlotSelect from "@/components/surfaces/SlotSelect.vue"; // @ is an alias 
 export default defineComponent({
   name: "Home",
   components: { SlotSelect },
+  methods: {
+    scrollContents() {
+      const el = this.$refs.contents as HTMLDivElement;
+      el.scrollIntoView({ behavior: "smooth" });
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>

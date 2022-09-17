@@ -1,10 +1,8 @@
 <template>
   <div class="user-profile">
-    <img
-      class="p-img cc cc-48"
-      src="https://cdn-icons-png.flaticon.com/128/3135/3135768.png"
-      alt="profile-image"
-    />
+    <div class="p-img cc cc-48" :style="{ backgroundColor: member.color }">
+      <img :src="profileImg" alt="profile-image" />
+    </div>
     <div class="p-name">
       <p class="name">
         {{ member.name }}<span>{{ broSis }}</span>
@@ -12,7 +10,7 @@
       <p class="org">{{ parseStake }}</p>
     </div>
     <div v-if="!noOp" class="p-setting">
-      <Btn type="round" color="info-wb" size="md" name="brush" />
+      <!--      <Btn type="round" color="info-wb" size="md" name="brush" />-->
       <Btn type="round" color="warning-wb" size="md" name="crown" />
     </div>
   </div>
@@ -40,6 +38,11 @@ export default defineComponent({
     parseStake(): string {
       return this.member.belong.split("_").shift() ?? this.member.belong;
     },
+    profileImg(): string {
+      return this.member.gender
+        ? require("@/assets/images/icon-sis@2x.png")
+        : require("@/assets/images/icon-bro@2x.png");
+    },
   },
 });
 </script>
@@ -58,6 +61,11 @@ export default defineComponent({
 
   .p-img {
     margin-right: 16px;
+
+    img {
+      width: 100%;
+      height: 100%;
+    }
   }
 
   .p-name {

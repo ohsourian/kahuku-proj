@@ -1,8 +1,9 @@
 <template>
-  <div v-if="isOpen" class="overlay" @click="onClose">
+  <div v-if="isOpen" class="overlay" @click="onClose()">
     <div class="glass modal-card">
       <div class="card-header">
-        <span @click="onClose">⨯</span>
+        <span>{{ title }}</span>
+        <span @click="onClose()">⨯</span>
       </div>
       <slot />
     </div>
@@ -14,11 +15,15 @@ import { defineComponent } from "vue";
 
 export default defineComponent({
   name: "ModalComp",
-  emits: ["close"],
+  emits: ["closeModal"],
   props: {
     isOpen: {
       type: Boolean,
       default: false,
+    },
+    title: {
+      type: String,
+      default: "",
     },
   },
   mounted() {
@@ -26,7 +31,7 @@ export default defineComponent({
   },
   methods: {
     onClose() {
-      return this.$emit("close");
+      return this.$emit("closeModal");
     },
   },
 });
@@ -50,12 +55,15 @@ export default defineComponent({
   position: relative;
   z-index: 10;
   min-width: 300px;
+  width: fit-content;
 
   .card-header {
     display: flex;
-    justify-content: right;
+    justify-content: space-between;
+    margin-bottom: 30px;
 
     span {
+      display: inline-block;
       font-size: 20pt;
       color: $gray;
       cursor: pointer;

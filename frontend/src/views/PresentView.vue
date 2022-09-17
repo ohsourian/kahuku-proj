@@ -49,7 +49,20 @@
                 name="circle-right"
                 @click="updateMembers(groupIdx + 1)"
               />
-              <Btn type="pill" color="primary" size="md" name="home" />
+              <Btn
+                type="pill"
+                color="success"
+                size="md"
+                name="share"
+                @click="copyAddress"
+              />
+              <Btn
+                type="pill"
+                color="primary"
+                size="md"
+                name="home"
+                @click="goHome"
+              />
             </section>
           </div>
         </div>
@@ -103,16 +116,29 @@ export default defineComponent({
       groupIdx: 1,
       searchIdx: "",
       members: [] as Member[],
+      openShare: false,
     };
   },
   computed: {
     firstHalf(): number {
       return Math.floor(this.members.length / 2);
     },
+    shareUrl(): string {
+      return window.location.toString() + `?grp=${this.groupIdx}`;
+    },
   },
   async mounted() {
+    const grp = this.$route.query["grp"];
+    if (!!grp && !isNaN(Number(grp))) {
+      await this.updateMembers(Number(grp));
+    }
     this.members = await this.$api.getGroupById(1);
     console.log(this.members.length, this.firstHalf);
+  },
+  watch: {
+    openShare(newVal) {
+      console.log({ newVal });
+    },
   },
   methods: {
     async updateMembers(index: number) {
@@ -157,6 +183,16 @@ export default defineComponent({
         type: "danger",
       });
       return false;
+    },
+    copyAddress() {
+      navigator.clipboard.writeText(this.shareUrl);
+      this.$store.dispatch("showAlert", {
+        message: "주소가 클립보드에 복사되었습니다.",
+        type: "success",
+      });
+    },
+    goHome() {
+      return this.$router.push("/");
     },
   },
 });

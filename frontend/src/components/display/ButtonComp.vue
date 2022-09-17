@@ -87,6 +87,8 @@ button {
 }
 
 .btn {
+  box-sizing: border-box;
+
   &-md {
     font-size: $font-size-md;
     padding: 8px 45px;
@@ -168,6 +170,15 @@ button {
 }
 
 .success {
+  &-wb {
+    border-color: $success;
+
+    &:hover,
+    &:active {
+      background-color: $success;
+    }
+  }
+
   &:hover,
   &:active {
     border-color: $success;
@@ -260,6 +271,10 @@ button {
 
 .home {
   @include img(home);
+}
+
+.share {
+  @include img(share);
 }
 
 .after {

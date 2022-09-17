@@ -12,6 +12,7 @@
 import MemberList from "@/components/surfaces/MemberList.vue";
 import { PropType } from "vue";
 import { Group } from "@/types/Member";
+import GroupLeaderModal from "@/components/modals/GroupLeaderModal.vue";
 
 export default {
   components: { MemberList },
