@@ -121,7 +121,7 @@ export default defineComponent({
   },
   computed: {
     firstHalf(): number {
-      return Math.floor(this.members.length / 2);
+      return Math.ceil(this.members.length / 2);
     },
     shareUrl(): string {
       return window.location.toString() + `?grp=${this.groupIdx}`;

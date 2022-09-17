@@ -15,6 +15,7 @@ $theme-colors: map-merge($theme-colors, $custom-colors);
 @import "bootstrap/scss/forms";
 @import "bootstrap/scss/alert";
 @import "bootstrap/scss/helpers";
+@import "bootstrap/scss/spinners";
 @import "bootstrap/scss/utilities/api";
 
 

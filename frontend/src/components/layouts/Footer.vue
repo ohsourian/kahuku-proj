@@ -1,14 +1,22 @@
 <template>
   <div id="footer">
     <span>© 2022 KYSA AMS Workbench, All Rights Reserved</span>
-    <span>feedback</span>
+    <span class="about" @click="toggleShowModal">About Us</span>
   </div>
+  <AboutModal />
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import AboutModal from "@/components/modals/AboutModal.vue";
 
 export default defineComponent({
   name: "FooterComp",
+  components: { AboutModal },
+  methods: {
+    toggleShowModal() {
+      this.$store.dispatch("toggleShowAbout");
+    },
+  },
 });
 </script>
 <style lang="scss">
@@ -29,6 +37,12 @@ export default defineComponent({
     font-size: 8pt;
     font-weight: lighter;
     margin-bottom: 8px;
+  }
+
+  .about {
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
   }
 }
 </style>

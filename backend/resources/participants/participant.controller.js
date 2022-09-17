@@ -17,14 +17,27 @@ router.put("/:id/color", async (req, res) => {
 
 router.put("/:id/leader", async (req, res) => {
   // 조장 여부 업데이트
-  const id = req.params.id; // 조
-  const leader = req.body.leader;
-  try {
-    await Participant.update({ groupLeader: leader }, { where: { id: id } });
-    return res.send("success");
-  } catch (e) {
-    return res.status(500).send("db err1");
+  const leaderPeriod = Number(process.env.LEADER_SET_PERIOD) === 1;
+  if (leaderPeriod) {
+    const id = req.params.id; // 조
+    const isLeader = req.body.leader;
+    try {
+      const leader = await Participant.findByPk(id);
+      if (leader) {
+        await Participant.update(
+          { groupLeader: 0 },
+          { where: { group: leader.group } }
+        );
+        leader.groupLeader = isLeader;
+        await leader.save();
+        return res.send("success");
+      }
+      return res.status(401).send("member not found");
+    } catch (e) {
+      return res.status(500).send("db err1");
+    }
   }
+  return res.status(403).send("unavailable");
 });
 
 router.get("/", async (req, res) => {
@@ -82,7 +95,8 @@ router.get("/", async (req, res) => {
       }
       members = [];
     }
-    return res.send(resData);
+    const leaderPeriod = Number(process.env.LEADER_SET_PERIOD) === 1;
+    return res.send({ leader_period: leaderPeriod, groups: resData });
   } catch (e) {
     console.error(e);
     return res.status(500).send("db err");

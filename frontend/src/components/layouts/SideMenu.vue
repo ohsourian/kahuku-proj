@@ -6,13 +6,28 @@
     </div>
     <router-link class="menu-item" to="/"> Main Page</router-link>
     <router-link class="menu-item" to="/groups"> 조편성 확인</router-link>
+    <router-link class="menu-item" to="/present"> 슬라이드 쇼</router-link>
     <div class="menu-category">
       <img src="@/assets/images/link@2x.png" alt="sitemap" />
       <span>외부링크</span>
     </div>
-    <a class="menu-item" href="http://naver.com" target="_blank"> KYSA 공식 </a>
-    <a class="menu-item" href="http://naver.com" target="_blank"> Instagram </a>
-    <a class="menu-item" href="http://naver.com" target="_blank"> Facebook </a>
+    <a class="menu-item" href="https://www.2022kysa.org/" target="_blank">
+      KYSA 공식
+    </a>
+    <a
+      class="menu-item"
+      href="https://www.instagram.com/2022kysa"
+      target="_blank"
+    >
+      Instagram
+    </a>
+    <a
+      class="menu-item"
+      href="https://www.facebook.com/2022kysa"
+      target="_blank"
+    >
+      Facebook
+    </a>
   </div>
 </template>
 <script lang="ts">

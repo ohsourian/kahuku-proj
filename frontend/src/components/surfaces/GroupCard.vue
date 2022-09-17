@@ -5,21 +5,27 @@
       v-for="(member, index) in group.members"
       :member="member"
       :key="`g${group.id}_${index}`"
+      @clickLeader="onSetLeader(member)"
     />
   </div>
 </template>
 <script lang="ts">
 import MemberList from "@/components/surfaces/MemberList.vue";
-import { PropType } from "vue";
-import { Group } from "@/types/Member";
-import GroupLeaderModal from "@/components/modals/GroupLeaderModal.vue";
+import { defineComponent, PropType } from "vue";
+import { Group, Member } from "@/types/Member";
 
-export default {
+export default defineComponent({
   components: { MemberList },
   props: {
     group: { type: Object as PropType<Group>, required: true },
   },
-};
+  emits: ["setLeader"],
+  methods: {
+    onSetLeader(member: Member) {
+      this.$emit("setLeader", member);
+    },
+  },
+});
 </script>
 <style lang="scss" scoped>
 .group-layout {

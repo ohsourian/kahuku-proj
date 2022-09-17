@@ -5,12 +5,20 @@
     @closeModal="onClose"
   >
     <section class="modal-wrap">
-      <MemberList :member="member" :no-op="true" />
+      <MemberList :member="member" :no-op="true" :active="true" />
       <p>
         위 조원을 {{ member.group }} 조 조장으로 임명합니다. <br />
         계속 하시겠습니까?
       </p>
-      <Btn type="regular" color="legacy" size="md" name="계속하기" />
+      <div class="button-wrapper">
+        <Btn
+          type="regular"
+          color="legacy"
+          size="md"
+          name="계속하기"
+          @click="updateLeader"
+        />
+      </div>
     </section>
   </Modal>
 </template>
@@ -37,6 +45,14 @@ export default defineComponent({
     console.log("modal mounted", this.member);
   },
   methods: {
+    async updateLeader() {
+      await this.$api.updateGroupLeader(this.member);
+      await this.$store.dispatch("showAlert", {
+        message: "등록이 완료되었습니다.",
+        type: "success",
+      });
+      this.onClose();
+    },
     onClose() {
       return this.$emit("close");
     },
@@ -51,5 +67,10 @@ export default defineComponent({
     font-size: $font-size-md;
     text-align: center;
   }
+}
+
+.button-wrapper {
+  margin: 0 auto;
+  width: 270px;
 }
 </style>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Group, Member } from "@/types/Member";
+import $store from "@/store/index";
 
 const baseURL = process.env.VUE_APP_SERVICE_API_URL;
 export default class ApiService {
@@ -47,7 +48,8 @@ export default class ApiService {
       `/api/participant`,
       { params: query }
     );
-    const groups = res.data;
+    const groups = res.data.groups;
+    await $store.dispatch("updateLeaderPeriod", !!res.data.leader_period);
     if (groups) {
       return Object.keys(groups).map((gid) => {
         const gRaw = groups[gid];
@@ -58,5 +60,11 @@ export default class ApiService {
       });
     }
     return [];
+  }
+
+  async updateGroupLeader(member: Member) {
+    await this.axios.put(`/api/participant/${member.id}/leader`, {
+      leader: 1,
+    });
   }
 }

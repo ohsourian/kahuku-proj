@@ -1,15 +1,15 @@
 <template>
   <Modal :is-open="visual">
     <div class="modal-wrapper">
-      <template v-if="modalState === 'ready'">
+      <section v-if="modalState === 'ready'" class="fade-in">
         <img src="@/assets/images/lucky@2x.png" alt="lucky" />
         <h3>조편성 시드 확인</h3>
         <p>
           선택된 시드로 랜덤한 조 편성이 이루어집니다. <br />
           계속하려면 진행하기 버튼을 눌러주세요!
         </p>
-      </template>
-      <template v-else-if="modalState === 'progress'">
+      </section>
+      <section v-else-if="modalState === 'progress'" class="fade-in">
         <img src="@/assets/images/drum@2x.png" alt="lucky" />
         <h3>조편성 현재 진행중</h3>
         <p>
@@ -17,15 +17,15 @@
           선택된 랜덤 시드와 여러 신청정보를 바탕으로 <br />
           조 편성이 이루어집니다.
         </p>
-      </template>
-      <template v-else-if="modalState === 'done'">
+      </section>
+      <section v-else-if="modalState === 'done'" class="fade-in">
         <img src="@/assets/images/party@2x.png" alt="lucky" />
         <h3>조편성 완료</h3>
         <p>
           조 편성이 완료되었습니다! <br />
           편성을 확인하시려면 확인하러 가기를 눌러주세요!
         </p>
-      </template>
+      </section>
       <div class="seed-check">
         <div class="slot-roll" :class="{ 'ne-on': modalState === 'progress' }">
           <div class="slot-input txt-0">
@@ -292,6 +292,10 @@ export default defineComponent({
   }
 }
 
+.fade-in {
+  animation: fade 0.5s;
+}
+
 @keyframes slotRoll {
   70%,
   100% {
@@ -311,6 +315,13 @@ export default defineComponent({
   100% {
     box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem $danger,
       0 0 0.8rem $danger, 0 0 2.8rem $danger, inset 0 0 1.3rem $danger;
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
 }
 </style>

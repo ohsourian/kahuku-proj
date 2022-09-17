@@ -1,7 +1,9 @@
 <template>
   <NavBar />
   <section class="body-wrapper">
-    <SideMenu v-if="menuToggle" />
+    <Transition name="slide">
+      <SideMenu v-if="menuToggle" />
+    </Transition>
     <router-view />
   </section>
   <FooterComp />
@@ -24,7 +26,20 @@ export default defineComponent({
 <style lang="scss">
 .body-wrapper {
   box-sizing: border-box;
-  height: con;
   display: flex;
+}
+
+.slide-enter-active {
+  animation: slide 0.5s;
+}
+
+.slide-leave-active {
+  animation: slide 0.3s reverse;
+}
+
+@keyframes slide {
+  from {
+    left: -200px;
+  }
 }
 </style>

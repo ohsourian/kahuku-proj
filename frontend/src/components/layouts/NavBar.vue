@@ -1,7 +1,7 @@
 <template>
   <div id="nav" :class="bgGradient">
     <Logo class="logo" kind="kysa-logo" :size="20" @click="toggleSideMenu" />
-    <h3>2022 KYSA AGG <span>Workbench</span></h3>
+    <h3 @click="toggleSideMenu">2022 KYSA AGG <span>Workbench</span></h3>
   </div>
   <div id="alert-area">
     <transition name="alert">
@@ -111,6 +111,7 @@ export default defineComponent({
 
   h3 {
     @include clean();
+    cursor: pointer;
     margin: auto 0;
 
     span {

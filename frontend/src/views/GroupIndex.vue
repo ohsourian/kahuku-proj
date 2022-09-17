@@ -8,11 +8,21 @@
             v-for="(group, index) in groups"
             :group="group"
             :key="index"
+            @setLeader="openSetLeader"
           />
-          <div v-if="onPageLoad">LOADNING....</div>
+        </div>
+        <div v-if="onPageLoad" class="py-3 d-flex justify-content-center">
+          <div class="spinner-border text-info" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
         </div>
         <!--        <GroupFilterModal />-->
-        <!--        <GroupLeaderModal v-if="groups.length" :member="first" :visual="true" />-->
+        <GroupLeaderModal
+          v-if="groupLeaderModal.isOpen"
+          :member="groupLeaderModal.member"
+          :visual="groupLeaderModal.isOpen"
+          @close="closeSetLeader"
+        />
       </div>
     </section>
   </main>
@@ -21,13 +31,13 @@
 import GroupCard from "@/components/surfaces/GroupCard.vue";
 import { defineComponent } from "vue";
 import { Group, Member } from "@/types/Member";
+import GroupLeaderModal from "@/components/modals/GroupLeaderModal.vue";
 import FilterOptionSelect from "@/components/surfaces/FilterOptionSelect.vue";
 import GroupFilterModal from "@/components/modals/GroupFilterModal.vue";
-import GroupLeaderModal from "@/components/modals/GroupLeaderModal.vue";
 
 export default defineComponent({
   name: "GroupIndex",
-  components: { GroupCard },
+  components: { GroupLeaderModal, GroupCard },
   data() {
     return {
       params: {} as {
@@ -38,6 +48,10 @@ export default defineComponent({
       onPageLoad: false,
       hasNextPage: true,
       page: 1,
+      groupLeaderModal: {
+        isOpen: false,
+        member: {} as Member,
+      },
     };
   },
   async mounted() {
@@ -82,6 +96,17 @@ export default defineComponent({
         }
       }
     },
+    openSetLeader(member: Member) {
+      this.groupLeaderModal = {
+        isOpen: true,
+        member,
+      };
+    },
+    async closeSetLeader() {
+      this.groupLeaderModal.isOpen = false;
+      this.$sleep(1500);
+      window.location.reload();
+    },
   },
 });
 </script>
@@ -99,7 +124,7 @@ main {
 }
 
 .board {
-  margin: 3rem 0;
+  margin-top: 3rem;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" class="overlay" @click="onClose()">
+  <div v-if="isOpen" class="overlay" @click.self="onClose()">
     <div class="glass modal-card">
       <div class="card-header">
         <span>{{ title }}</span>
