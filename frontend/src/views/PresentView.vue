@@ -142,7 +142,7 @@ export default defineComponent({
   },
   methods: {
     async updateMembers(index: number) {
-      if (0 < index && index < 37) {
+      if (0 < index && index < 40) {
         const newMem = await this.$api.getGroupById(index);
         // animate table
         const prevList = this.$refs["member-result"] as HTMLDivElement;
