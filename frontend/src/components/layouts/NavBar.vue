@@ -53,7 +53,6 @@ export default defineComponent({
   watch: {
     async alertShow(newVal) {
       if (newVal) {
-        console.log("alert active");
         await this.$sleep(3000);
         this.hideAlert();
       }

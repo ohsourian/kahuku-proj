@@ -7,7 +7,6 @@ export default class ApiService {
   axios;
 
   constructor() {
-    console.log({ baseURL });
     this.axios = axios.create({
       baseURL,
     });

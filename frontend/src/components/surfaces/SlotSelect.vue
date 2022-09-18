@@ -72,7 +72,6 @@ export default defineComponent({
       this.slots[index] = value;
     },
     beginSlot() {
-      console.log(this.$store.state.alert.isShow);
       if (
         this.slots.length === 3 &&
         this.slots.every((x) => x.length && !isNaN(Number(x)))

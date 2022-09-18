@@ -4,7 +4,6 @@ const funcs = ["download", "fetch-data", "truncate"];
 
 const main = async () => {
   const arg = process.argv.slice(2);
-  console.log(arg, !!arg[0] && funcs.includes(arg[0]));
   if (!!arg[0] && funcs.includes(arg[0])) {
     switch (arg[0]) {
       case "download":

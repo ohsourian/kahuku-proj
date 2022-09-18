@@ -1,47 +1,53 @@
 <template>
   <div class="glass">
     <span class="box-label">검색 옵션</span>
-    <section class="search-input">
-      <span class="section-title">이름으로 검색</span>
-      <div class="d-flex align-items-center">
-        <span class="input">
-          <input v-model="name" type="text" @keydown.enter="searchByName" />
-        </span>
+    <div class="clear-all">모두 지우기</div>
+    <div class="options">
+      <div id="option-btn-group">
         <Btn
-          type="regular"
-          color="legacy"
-          size="sm"
-          name="검색"
-          @click="searchByName"
+          class="filter-btn"
+          type="pill"
+          color="warning"
+          size="md"
+          name="group"
+        />
+        <Btn
+          class="filter-btn"
+          type="pill"
+          color="orange"
+          size="md"
+          name="person"
+        />
+        <Btn
+          class="filter-btn"
+          type="pill"
+          color="danger"
+          size="md"
+          name="arrow-right"
+        />
+        <Btn
+          class="filter-btn"
+          type="pill"
+          color="purple"
+          size="md"
+          name="up-down"
         />
       </div>
-    </section>
+      <div id="option-applied">
+        <div class="option-pill">
+          <img src="@/assets/images/group@2x.png" alt="option-img" />
+          <span class="option-value">4조</span>
+          <span class="option-clear">⨯</span>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
 
 export default defineComponent({
-  name: "FilterOptionSelect",
-  emits: ["searchName"],
-  data() {
-    return {
-      name: "" as string,
-    };
-  },
-  methods: {
-    searchByName() {
-      if (1 < this.name.length && this.name.length < 7) {
-        this.$emit("searchName", this.name);
-      } else {
-        this.name = "";
-        this.$store.dispatch("showAlert", {
-          message: "2자 이상, 6자 이하로 입력해주세요",
-          type: "danger",
-        });
-      }
-    },
-  },
+  name: "FilterOptionSelectLegacy",
 });
 </script>
 <style lang="scss" scoped>
@@ -118,28 +124,6 @@ export default defineComponent({
       margin-bottom: 3px;
       font-size: $font-size-md;
     }
-  }
-}
-
-.input {
-  position: relative;
-  box-sizing: border-box;
-  display: inline-block;
-  width: 150px;
-  height: 100%;
-  background-color: $dark;
-  margin-right: 8px;
-  border-radius: 5px;
-  border: $light solid 2px;
-
-  input {
-    @include clean();
-    width: 100%;
-    height: 100%;
-    background-color: transparent;
-    color: $light;
-    font-size: $font-size-md;
-    text-align: center;
   }
 }
 </style>

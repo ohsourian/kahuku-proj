@@ -41,9 +41,6 @@ export default defineComponent({
     },
   },
   emits: ["close"],
-  mounted() {
-    console.log("modal mounted", this.member);
-  },
   methods: {
     async updateLeader() {
       await this.$api.updateGroupLeader(this.member);

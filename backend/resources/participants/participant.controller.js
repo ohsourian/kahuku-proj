@@ -26,7 +26,7 @@ router.put("/:id/leader", async (req, res) => {
       if (leader) {
         await Participant.update(
           { groupLeader: 0 },
-          { where: { group: leader.group } }
+          { where: { group: leader.group, gender: leader.gender } }
         );
         leader.groupLeader = isLeader;
         await leader.save();
@@ -70,10 +70,11 @@ router.get("/", async (req, res) => {
           },
         },
       });
-
-      for (let i = 0; i < data.length; i++) {
-        groupNum.push(data[i].group);
-      }
+      const groupSlice = 6 * page;
+      groupNum = data
+        .slice(groupSlice - 6, groupSlice)
+        .map((member) => member.group);
+      console.log(groupNum);
     }
     console.log("조회할 그룹" + groupNum);
     const data = await Participant.findAll({

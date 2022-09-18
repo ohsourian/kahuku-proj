@@ -26,9 +26,6 @@ export default defineComponent({
       default: "",
     },
   },
-  mounted() {
-    console.log(`foo: ${this.isOpen}`);
-  },
   methods: {
     onClose() {
       return this.$emit("closeModal");

@@ -133,12 +133,6 @@ export default defineComponent({
       await this.updateMembers(Number(grp));
     }
     this.members = await this.$api.getGroupById(1);
-    console.log(this.members.length, this.firstHalf);
-  },
-  watch: {
-    openShare(newVal) {
-      console.log({ newVal });
-    },
   },
   methods: {
     async updateMembers(index: number) {

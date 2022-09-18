@@ -2,7 +2,7 @@
   <main>
     <section class="main">
       <div class="contents">
-        <!--        <FilterOptionSelect />-->
+        <FilterOptionSelect @searchName="searchName" />
         <div class="board" ref="board">
           <GroupCard
             v-for="(group, index) in groups"
@@ -37,13 +37,15 @@ import GroupFilterModal from "@/components/modals/GroupFilterModal.vue";
 
 export default defineComponent({
   name: "GroupIndex",
-  components: { GroupLeaderModal, GroupCard },
+  components: { FilterOptionSelect, GroupLeaderModal, GroupCard },
   data() {
     return {
-      params: {} as {
-        group?: string[];
-        name?: string;
-      },
+      params: {} as
+        | {
+            group?: string[];
+            name?: string;
+          }
+        | { [key: string]: any },
       groups: [] as Group[],
       onPageLoad: false,
       hasNextPage: true,
@@ -58,7 +60,6 @@ export default defineComponent({
     window.addEventListener("scroll", this.handleScroll);
     this.onPageLoad = true;
     await this.fetchGroup();
-    console.log(this.first);
   },
   unmounted() {
     window.removeEventListener("scroll", this.handleScroll);
@@ -69,13 +70,16 @@ export default defineComponent({
     },
   },
   methods: {
-    async fetchGroup(delay = 0) {
+    async fetchGroup(delay = 0, flush = false) {
       const page = await this.$api.fetchGroup({
         page: this.page,
         ...this.params,
       });
       if (delay) {
         await this.$sleep(delay);
+      }
+      if (flush) {
+        this.groups = [];
       }
       this.onPageLoad = false;
       if (page.length) {
@@ -84,6 +88,14 @@ export default defineComponent({
       } else {
         this.hasNextPage = false;
       }
+    },
+    async search(key: "group" | "name", value: string) {
+      this.params[key] = value;
+      this.page = 1;
+      await this.fetchGroup(300, true);
+    },
+    async searchName(name: string) {
+      await this.search("name", name);
     },
     async handleScroll() {
       const boardHeight = (

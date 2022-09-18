@@ -34,9 +34,6 @@ export default defineComponent({
     },
   },
   emits: ["close"],
-  mounted() {
-    console.log(this.type);
-  },
   methods: {
     onClose() {
       return this.$emit("close");
