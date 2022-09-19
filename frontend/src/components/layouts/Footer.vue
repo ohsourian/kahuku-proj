@@ -29,6 +29,9 @@ export default defineComponent({
   height: 96px;
   width: 100%;
   border-top: 2px solid $gray-800;
+  @media screen and (max-width: 720px) {
+    height: 72px;
+  }
 
   span,
   a {

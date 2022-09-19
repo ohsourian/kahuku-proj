@@ -1,5 +1,5 @@
 <template>
-  <NavBar />
+  <NavBar v-if="isPcView" />
   <section class="body-wrapper">
     <Transition name="slide">
       <SideMenu v-if="menuToggle" />
@@ -19,6 +19,9 @@ export default defineComponent({
   computed: {
     menuToggle(): boolean {
       return this.$store.state.menuToggle;
+    },
+    isPcView(): boolean {
+      return this.$route.name !== "MobileView";
     },
   },
 });

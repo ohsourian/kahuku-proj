@@ -112,7 +112,7 @@ export default defineComponent({
   },
   data() {
     return {
-      dbAlt: true,
+      dbAlt: false,
       boxes: [] as HTMLDivElement[],
       boxData: [] as string[][],
       modalState: "ready" as SlotModalType,

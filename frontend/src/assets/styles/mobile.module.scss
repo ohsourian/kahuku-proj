@@ -1,0 +1,46 @@
+@import "@/assets/styles/app.module.scss";
+
+.m {
+  &-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 0;
+    background-color: $dark;
+    border-bottom: 2px solid $gray-800;
+  }
+
+  &-main-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: calc(100% - 46px);
+  }
+
+  &-alert {
+    position: fixed;
+    box-sizing: border-box;
+    top: 46px;
+    left: 0;
+    z-index: 9;
+    width: 100%;
+    font-size: $font-size-sm;
+
+    .alert {
+      margin: 0 8%;
+    }
+
+    .btn-close {
+      @include clean();
+      height: 100%;
+      font-size: $font-size-lg;
+      color: $gray-600;
+      cursor: pointer;
+      margin-right: 10px;
+      background-color: transparent;
+    }
+  }
+
+}

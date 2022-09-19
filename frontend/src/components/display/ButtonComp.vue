@@ -24,7 +24,14 @@ import { defineComponent, PropType } from "vue";
 
 type BtnStyle = "round" | "pill" | "regular" | "router" | "none";
 type BtnSize = "sm" | "md" | "lg" | "fit";
-type BtnColor = "primary" | "info" | "warning" | "danger" | "purple";
+type BtnColor =
+  | "primary"
+  | "info"
+  | "warning"
+  | "danger"
+  | "purple"
+  | "legacy"
+  | "light";
 export default defineComponent({
   name: "ButtonComp",
   props: {

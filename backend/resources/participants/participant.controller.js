@@ -104,6 +104,30 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get("/member", async (req, res) => {
+  const { name, page = 1 } = req.query;
+  const page_size = 6;
+  let list = [];
+  if (name) {
+    try {
+      list = await Participant.findAll({
+        where: {
+          name: {
+            [Op.like]: "%" + name + "%",
+          },
+        },
+        limit: page_size,
+        offset: (page - 1) * page_size,
+        raw: true,
+      });
+    } catch (e) {
+      console.error(e);
+      return res.status(500).send("db err");
+    }
+  }
+  return res.send({ page, page_size, list });
+});
+
 router.get("/group/:group", async (req, res) => {
   // 그룹 하나부르기
   try {

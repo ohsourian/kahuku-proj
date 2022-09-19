@@ -1,6 +1,7 @@
 import axios from "axios";
 import { Group, Member } from "@/types/Member";
 import $store from "@/store/index";
+import memberList from "@/components/surfaces/MemberList.vue";
 
 const baseURL = process.env.VUE_APP_SERVICE_API_URL;
 export default class ApiService {
@@ -59,6 +60,23 @@ export default class ApiService {
       });
     }
     return [];
+  }
+
+  async searchMember(
+    name: string,
+    page = 1
+  ): Promise<{ page: number; members: Member[] }> {
+    const res: { [key: string]: any } = await this.axios.get(
+      `/api/participant/member`,
+      { params: { name, page } }
+    );
+    if (res.data) {
+      return {
+        page: res.data.page,
+        members: res.data.list.map((member: any) => this.fetchMember(member)),
+      };
+    }
+    throw new Error("search api err");
   }
 
   async updateGroupLeader(member: Member) {
