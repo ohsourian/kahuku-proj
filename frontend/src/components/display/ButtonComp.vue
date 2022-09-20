@@ -6,6 +6,7 @@
   <button
     v-else-if="type === 'regular'"
     :class="`btn btn-${color} btn-${size} ${afterClass}`"
+    :disabled="disabled"
   >
     {{ name }}
   </button>
@@ -58,6 +59,10 @@ export default defineComponent({
     link: {
       type: String,
       default: "",
+    },
+    disabled: {
+      type: Boolean,
+      default: false,
     },
   },
   computed: {

@@ -4,7 +4,7 @@
     <Transition name="slide">
       <SideMenu v-if="menuToggle" />
     </Transition>
-    <router-view />
+    <router-view :key="$route.fullPath" />
   </section>
   <FooterComp />
 </template>

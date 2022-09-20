@@ -2,12 +2,17 @@
 
 .m {
   &-nav {
+    position: fixed;
     display: flex;
     align-items: center;
     justify-content: center;
+    top: 0;
+    left: 0;
+    width: 100%;
     padding: 12px 0;
     background-color: $dark;
     border-bottom: 2px solid $gray-800;
+    z-index: 5;
   }
 
   &-main-wrap {
@@ -17,6 +22,7 @@
     justify-content: center;
     width: 100%;
     height: calc(100% - 46px);
+    margin-top: 46px;
   }
 
   &-alert {

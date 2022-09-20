@@ -1,7 +1,7 @@
 <template>
   <main>
     <div class="m-nav">
-      <Logo class="logo" kind="kysa-logo" :size="20" />
+      <Logo class="logo" kind="kysa-logo" :size="20" @click="goBackHome" />
     </div>
     <div class="m-alert">
       <transition name="alert">
@@ -19,8 +19,13 @@
       @getGroupId="getGroupId"
       @getName="searchName"
     />
-    <MobileSelect v-else-if="viewType === 'Select'" />
-    <MobileGroupList v-else-if="viewType === 'List'" />
+    <MobileSelect
+      v-else-if="viewType === 'Select'"
+      :members="findList"
+      :keyword="keyword"
+      @getGroupId="getGroupId"
+    />
+    <MobileGroupList v-else-if="viewType === 'List'" :group-id="groupId" />
   </main>
 </template>
 <script lang="ts">
@@ -41,6 +46,7 @@ export default defineComponent({
       groupId: 0,
       viewType: "Main" as ViewType,
       findList: [] as Member[],
+      keyword: "",
     };
   },
   computed: {
@@ -71,26 +77,33 @@ export default defineComponent({
   },
   methods: {
     async searchName(name: string) {
+      this.keyword = name;
       const res = await this.$api.searchMember(name);
       const members = res.members;
       if (members.length > 1) {
         this.findList.push(...members);
         this.viewType = "Select";
       } else if (members.length === 1) {
-        this.groupId = members[0].group;
-        this.viewType = "List";
+        this.getGroupId(members[0].group);
+      } else {
+        this.$store.dispatch("showAlert", {
+          message: "검색결과가 없습니다.",
+          type: "info",
+        });
       }
-      this.$store.dispatch("showAlert", {
-        message: "검색결과가 없습니다.",
-        type: "info",
-      });
     },
     getGroupId(id: number) {
-      this.groupId = id;
-      this.viewType = "List";
+      this.$router.push(`/mobile?grp=${id}`);
     },
     hideAlert() {
       this.$store.dispatch("hideAlert");
+    },
+    goBackHome() {
+      if (this.groupId) {
+        this.$router.push("/mobile");
+      } else {
+        this.viewType = "Main";
+      }
     },
   },
 });
