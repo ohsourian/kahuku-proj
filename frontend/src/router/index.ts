@@ -32,4 +32,17 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  if (
+    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      navigator.userAgent
+    ) &&
+    to.name !== "MobileView"
+  ) {
+    next({ name: "MobileView" });
+  } else {
+    next();
+  }
+});
+
 export default router;
