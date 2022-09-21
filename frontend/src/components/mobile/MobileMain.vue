@@ -92,11 +92,6 @@ export default defineComponent({
       return this.$store.getters.getLang;
     },
   },
-  watch: {
-    lang(newVal) {
-      console.log(newVal);
-    },
-  },
   mounted() {
     this.langInput = this.lang;
   },
