@@ -1,6 +1,6 @@
 <template>
   <div class="m-main-wrap">
-    <div class="language mb-3">
+    <div class="language my-3">
       <select
         v-model="langInput"
         class="form-select form-select-sm"
@@ -56,7 +56,7 @@
         />
       </div>
     </div>
-    <div class="d-flex align-items-center mt-3 follow-us">
+    <div class="d-flex align-items-center mt-3 mb-5 follow-us">
       <a
         href="https://www.facebook.com/2022kysa"
         target="_blank"

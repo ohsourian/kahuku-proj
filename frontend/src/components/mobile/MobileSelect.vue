@@ -8,11 +8,12 @@
       </p>
       <div :class="{ 'member-list-area': showPaginator }">
         <MemberList
-          v-for="(member, index) in members"
+          v-for="(mem, index) in members"
           :key="index"
-          :member="member"
+          :member="mem"
           :no-op="true"
-          @click="activeMember(member)"
+          :active="isSelected(mem)"
+          @click="activeMember(mem)"
         />
       </div>
       <div
@@ -116,6 +117,9 @@ export default defineComponent({
       if (this.member) {
         return this.$emit("getGroupId", this.member.group);
       }
+    },
+    isSelected(member: Member) {
+      return this.member && this.member.id === member.id;
     },
   },
 });
