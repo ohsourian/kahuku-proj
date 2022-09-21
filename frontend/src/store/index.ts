@@ -1,11 +1,13 @@
 import { createStore } from "vuex";
 import { AlertComp, BootstrapScheme } from "@/types/Alert";
+import { Lang } from "@/types/Common";
 
 export default createStore({
   state: {
     menuToggle: false,
     isLeaderPeriod: false,
     showAbount: false,
+    lang: "ko" as Lang,
     alert: {
       isShow: false,
       message: "",
@@ -25,6 +27,9 @@ export default createStore({
     getShowAbout(state) {
       return state.showAbount;
     },
+    getLang(state) {
+      return state.lang;
+    },
   },
   mutations: {
     UPDATE_MENU_STATE(state, payload: boolean) {
@@ -38,6 +43,9 @@ export default createStore({
     },
     TOGGLE_SHOW_ABOUT(state) {
       state.showAbount = !state.showAbount;
+    },
+    UPDATE_LANG(state, payload: Lang) {
+      state.lang = payload;
     },
   },
   actions: {
@@ -60,6 +68,9 @@ export default createStore({
     },
     toggleShowAbout(context) {
       context.commit("TOGGLE_SHOW_ABOUT");
+    },
+    updateLang(context, payload: Lang) {
+      context.commit("UPDATE_LANG", payload);
     },
   },
   modules: {},

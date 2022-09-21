@@ -1,0 +1,90 @@
+{
+  "welcome": {
+    "en": "Welcome!",
+    "ko": "환영합니다"
+  },
+  "welcome_desc_1": {
+    "en": "Search your group",
+    "ko": "검색 옵션에 따라"
+  },
+  "welcome_desc_2": {
+    "en": "depending on search options below.",
+    "ko": "소속된 조를 찾을 수 있습니다."
+  },
+  "search_name_label": {
+    "en": "Search By Name",
+    "ko": "이름으로 찾기"
+  },
+  "search_name_btn": {
+    "en": "Search Name",
+    "ko": "이름 검색"
+  },
+  "search_group_label": {
+    "en": "Search By Group Number",
+    "ko": "조 번호로 찾기"
+  },
+  "search_group_btn": {
+    "en": "Search Group",
+    "ko": "조 검색"
+  },
+  "alert_no_search_res": {
+    "en": "No search result.",
+    "ko": "검색 결과가 없습니다."
+  },
+  "alert_search_length": {
+    "en": "Input length should be longer than 2 letters!",
+    "ko": "2자 이상 입력해주세요."
+  },
+  "alert_search_group_out_idx": {
+    "en": "Provided group number is out of range!",
+    "ko": "지정된 조 범위를 벗어났습니다."
+  },
+  "search_result": {
+    "en": "Search Result",
+    "ko": "검색 결과"
+  },
+  "search_res_desc_1": {
+    "en": "Here are few similar names",
+    "ko": "검색결과로 비슷한 이름을 찾았습니다."
+  },
+  "search_res_desc_2": {
+    "en": "Choose a member to find a group",
+    "ko": "조를 확인할 회원을 선택해 주세요."
+  },
+  "search_choose_btn": {
+    "en": "Choose",
+    "ko": "회원선택"
+  },
+  "alert_last_page": {
+    "en": "Last page of the list",
+    "ko": "마지막 페이지 입니다."
+  },
+  "alert_first_page": {
+    "en": "First page of the list",
+    "ko": "첫 페이지입니다."
+  },
+  "list_reset": {
+    "en": "Reset",
+    "ko": "초기화"
+  },
+  "list_share": {
+    "en": "Share",
+    "ko": "공유"
+  },
+  "list_share_msg": {
+    "en": "Welcome to 2022 KYSA!",
+    "ko": "2022년 예수그리스도 후기성도교회 청년대회"
+  },
+  "list_share_not_support": {
+    "en": "Browser not supported.",
+    "ko": "브라우저에서 지원하지 않는 기능입니다."
+  },
+  "list_group": {
+    "en": "Group",
+    "ko": "조"
+  },
+  "member_lead": {
+    "en": "Lead",
+    "ko": "조장"
+  }
+}

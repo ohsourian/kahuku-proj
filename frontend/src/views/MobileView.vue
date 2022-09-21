@@ -36,6 +36,7 @@ import MobileGroupList from "@/components/mobile/MobileGroupList.vue";
 import Logo from "@/components/display/LogoComp.vue";
 import { BootstrapScheme } from "@/types/Alert";
 import { Member } from "@/types/Member";
+import { Lang } from "@/types/Common";
 
 type ViewType = "Main" | "Select" | "List";
 export default defineComponent({
@@ -59,6 +60,9 @@ export default defineComponent({
     alertType(): BootstrapScheme {
       return this.$store.state.alert.type;
     },
+    lang(): Lang {
+      return this.$store.getters.getLang;
+    },
   },
   watch: {
     async alertShow(newVal) {
@@ -70,9 +74,13 @@ export default defineComponent({
   },
   created() {
     const grp = this.$route.query["grp"];
+    const lang = this.$route.query["lang"];
     if (!!grp && !isNaN(Number(grp))) {
       this.groupId = Number(grp);
       this.viewType = "List";
+    }
+    if (!!lang && ["ko", "en"].includes(lang.toString())) {
+      this.$store.dispatch("updateLang", lang);
     }
   },
   methods: {
@@ -87,13 +95,17 @@ export default defineComponent({
         this.getGroupId(members[0].group);
       } else {
         this.$store.dispatch("showAlert", {
-          message: "검색결과가 없습니다.",
+          message: this.$t("alert_no_search_res"),
           type: "info",
         });
       }
     },
-    getGroupId(id: number) {
-      this.$router.push(`/mobile?grp=${id}`);
+    getGroupId(grp: number) {
+      const lang = this.lang === "en" ? this.lang : undefined;
+      this.$router.push({
+        path: "/mobile",
+        query: { grp, lang },
+      });
     },
     hideAlert() {
       this.$store.dispatch("hideAlert");

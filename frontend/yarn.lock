@@ -6066,6 +6066,11 @@ vue-loader@^17.0.0:
     hash-sum "^2.0.0"
     loader-utils "^2.0.0"
 
+vue-navigator-share@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/vue-navigator-share/-/vue-navigator-share-1.0.3.tgz#cdc3982fff5e595d4a37102fa2e3fe83b8a6805e"
+  integrity sha512-7b1bIyNYTlyyt/sigl2yXilnVL7x95NtsckcxVb6z4OJ3OGv3DOdqb1t2eAE6MCOf2TKBR170PUQjoiDI8TT/A==
+
 vue-router@^4.0.3:
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-4.1.5.tgz#256f597e3f5a281a23352a6193aa6e342c8d9f9a"

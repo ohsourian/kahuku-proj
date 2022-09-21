@@ -2,12 +2,14 @@
   <div class="m-main-wrap">
     <div v-if="onPageLoad" class="temp-reset">
       <Btn
+        class="mr-3"
         type="regular"
         color="light"
         size="sm"
-        name="초기화"
+        :name="$t('list_reset')"
         @click="goBackHome"
       />
+      <Btn type="share" color="legacy" size="sm" :name="$t('list_reset')" />
     </div>
     <div v-if="!onPageLoad" class="py-3 d-flex justify-content-center">
       <div class="spinner-border text-info" role="status">
@@ -15,7 +17,9 @@
       </div>
     </div>
     <div v-else class="glass group-list px-3 pt-3 pb-5">
-      <h2 class="title">{{ groupId }} 조</h2>
+      <h2 class="title">
+        {{ lang === "en" ? `Group ${groupId}` : `${groupId} 조` }}
+      </h2>
       <MemberList
         v-for="(member, index) in members"
         :key="index"
@@ -50,6 +54,11 @@ export default defineComponent({
       onPageLoad: false,
     };
   },
+  computed: {
+    lang(): string {
+      return this.$store.getters.getLang;
+    },
+  },
   async mounted() {
     this.members = await this.$api.getGroupById(this.groupId);
     this.onPageLoad = true;
@@ -69,6 +78,10 @@ export default defineComponent({
   left: 0;
   width: 97%;
   justify-content: flex-end;
+
+  *:nth-child(1) {
+    margin-right: 15px;
+  }
 }
 
 .group-list {

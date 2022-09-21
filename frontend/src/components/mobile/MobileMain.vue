@@ -1,19 +1,23 @@
 <template>
   <div class="m-main-wrap">
     <div class="language mb-3">
-      <select v-model="langInput" class="form-select form-select-sm">
+      <select
+        v-model="langInput"
+        class="form-select form-select-sm"
+        @change="changeLang"
+      >
         <option value="ko">Korean</option>
         <option value="en">English</option>
       </select>
     </div>
     <div class="glass log-in pb-5">
-      <h2 class="title">환영합니다!</h2>
+      <h2 class="title">{{ $t("welcome") }}</h2>
       <p class="mb-5">
-        검색 옵션에 따라 <br />
-        소속된 조를 찾을 수 있습니다.
+        {{ $t("welcome_desc_1") }} <br />
+        {{ $t("welcome_desc_2") }}
       </p>
       <div class="input-area">
-        <label class="form-label">이름으로 찾기</label>
+        <label class="form-label">{{ $t("search_name_label") }}</label>
         <input
           v-model="nameInput"
           type="text"
@@ -27,13 +31,13 @@
           type="regular"
           :color="searchOpt === 'Name' ? 'legacy' : 'light'"
           size="fit"
-          name="이름 검색"
+          :name="$t('search_name_btn')"
           @click="searchByName"
         />
       </div>
       <hr class="my-5" />
       <div class="input-area">
-        <label class="form-label">조 번호로 찾기</label>
+        <label class="form-label">{{ $t("search_group_label") }}</label>
         <input
           v-model="groupIdInput"
           type="number"
@@ -47,15 +51,29 @@
           type="regular"
           :color="searchOpt === 'GroupId' ? 'primary' : 'light'"
           size="fit"
-          name="조 검색"
+          :name="$t('search_group_btn')"
           @click="searchByGroupId"
         />
       </div>
+    </div>
+    <div class="d-flex align-items-center mt-3 follow-us">
+      <a
+        href="https://www.facebook.com/2022kysa"
+        target="_blank"
+        class="fb"
+      ></a>
+      <a
+        href="https://www.instagram.com/2022kysa"
+        target="_blank"
+        class="ins"
+      ></a>
+      <a href="https://discord.gg/AbfHWfjWut" target="_blank" class="dis"></a>
     </div>
   </div>
 </template>
 <script lang="ts">
 import { defineComponent } from "vue";
+import { Lang } from "@/types/Common";
 
 type SearchOpt = "GroupId" | "Name";
 export default defineComponent({
@@ -66,8 +84,21 @@ export default defineComponent({
       searchOpt: "Name" as SearchOpt,
       nameInput: "" as string,
       groupIdInput: "" as string,
-      langInput: "ko" as "ko" | "en",
+      langInput: "ko" as Lang,
     };
+  },
+  computed: {
+    lang(): Lang {
+      return this.$store.getters.getLang;
+    },
+  },
+  watch: {
+    lang(newVal) {
+      console.log(newVal);
+    },
+  },
+  mounted() {
+    this.langInput = this.lang;
   },
   methods: {
     async searchByName() {
@@ -76,7 +107,7 @@ export default defineComponent({
         return this.$emit("getName", this.nameInput);
       }
       this.$store.dispatch("showAlert", {
-        message: "2자 이상, 6자 이하로 입력해주세요",
+        message: this.$t("alert_search_length"),
         type: "danger",
       });
     },
@@ -87,12 +118,12 @@ export default defineComponent({
         return this.$emit("getGroupId", index);
       }
       this.$store.dispatch("showAlert", {
-        message: "지정된 조 범위를 벗어났습니다.",
+        message: this.$t("alert_search_group_out_idx"),
         type: "danger",
       });
     },
     async changeLang() {
-      // use store
+      this.$router.replace(`/mobile?lang=${this.langInput}`);
     },
   },
 });
@@ -170,10 +201,41 @@ export default defineComponent({
   }
 }
 
+.follow-us {
+  a {
+    display: inline-block;
+    width: 32px;
+    height: 32px;
+    margin: 0 30px;
+
+    &:active {
+      animation: shrink 0.1s ease-out;
+    }
+  }
+
+  .dis {
+    @include img(discord);
+  }
+
+  .ins {
+    @include img(instagram);
+  }
+
+  .fb {
+    @include img(facebook);
+  }
+}
+
 @keyframes floating {
   from {
     opacity: 0;
     transform: translateY(30px);
+  }
+}
+
+@keyframes shrink {
+  to {
+    transform: scale(0.7);
   }
 }
 </style>

@@ -16,14 +16,23 @@
     :to="link"
     >{{ name }}
   </router-link>
+  <Share
+    v-else-if="type === 'share'"
+    :class="`btn-share btn btn-${color} btn-${size}`"
+    :on-error="shareErr"
+    :url="url"
+    :title="title"
+    :text="name"
+  />
   <button v-else-if="type === 'none'" :class="`${type} ${noneClass}`">
     {{ name }}
   </button>
 </template>
 <script lang="ts">
+import Share from "vue-navigator-share";
 import { defineComponent, PropType } from "vue";
 
-type BtnStyle = "round" | "pill" | "regular" | "router" | "none";
+type BtnStyle = "round" | "pill" | "regular" | "router" | "share" | "none";
 type BtnSize = "sm" | "md" | "lg" | "fit";
 type BtnColor =
   | "primary"
@@ -35,6 +44,7 @@ type BtnColor =
   | "light";
 export default defineComponent({
   name: "ButtonComp",
+  components: { Share },
   props: {
     type: {
       type: String as PropType<BtnStyle>,
@@ -65,6 +75,12 @@ export default defineComponent({
       default: false,
     },
   },
+  data() {
+    return {
+      url: window.location.href,
+      title: document.title,
+    };
+  },
   computed: {
     sizedClass(): string {
       if (this.type === "round") {
@@ -89,6 +105,14 @@ export default defineComponent({
       return `${this.type}-${this.color}`;
     },
   },
+  methods: {
+    shareErr() {
+      this.$store.dispatch("showAlert", {
+        message: this.$t("list_share_not_support"),
+        type: "danger",
+      });
+    },
+  },
 });
 </script>
 <style lang="scss" scoped>
@@ -96,6 +120,12 @@ button {
   @include clean();
   cursor: pointer;
   color: $light;
+}
+
+.btn-share {
+  :deep p {
+    @include clean();
+  }
 }
 
 .btn {

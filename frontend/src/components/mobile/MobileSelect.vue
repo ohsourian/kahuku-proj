@@ -1,10 +1,10 @@
 <template>
   <div class="m-main-wrap">
     <div class="glass member-select">
-      <h3 class="title">검색 결과</h3>
+      <h3 class="title">{{ $t("search_result") }}</h3>
       <p class="mb-3">
-        비슷한 이름의 검색결과를 찾았습니다.<br />
-        조를 확인할 회원을 선택해주세요.
+        {{ $t("search_res_desc_1") }}<br />
+        {{ $t("search_res_desc_2") }}
       </p>
       <div :class="{ 'member-list-area': showPaginator }">
         <MemberList
@@ -12,7 +12,7 @@
           :key="index"
           :member="member"
           :no-op="true"
-          @click="activeMember"
+          @click="activeMember(member)"
         />
       </div>
       <div
@@ -29,7 +29,7 @@
           type="regular"
           color="legacy"
           size="fit"
-          name="회원선택"
+          :name="$t('search_choose_btn')"
           @click="selectMember"
         />
       </div>
@@ -94,8 +94,8 @@ export default defineComponent({
         this.getNext();
       } else {
         this.$store.dispatch("showAlert", {
-          message: "마지막 페이지입니다.",
-          type: "info",
+          message: this.$t("alert_last_page"),
+          type: "warning",
         });
       }
     },
@@ -107,8 +107,8 @@ export default defineComponent({
         this.currentData.push(...this.pageData.prev);
       } else {
         this.$store.dispatch("showAlert", {
-          message: "첫 페이지입니다.",
-          type: "info",
+          message: this.$t("alert_first_page"),
+          type: "warning",
         });
       }
     },

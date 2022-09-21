@@ -8,8 +8,8 @@
     </div>
     <div class="p-name">
       <p class="name">
-        {{ member.name }}<span>{{ broSis }}</span>
-        <span v-if="member.isRep">(조장)</span>
+        {{ member.name }}<span v-if="lang !== 'en'">{{ broSis }}</span>
+        <span v-if="member.isRep">{{ lang === "en" ? "(GL)" : "(조장)" }}</span>
       </p>
       <p class="org">{{ parseStake }}</p>
     </div>
@@ -29,6 +29,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from "vue";
 import { Member } from "@/types/Member";
+import { Lang } from "@/types/Common";
 
 export default defineComponent({
   name: "MemberList",
@@ -61,6 +62,9 @@ export default defineComponent({
     },
     isLeaderPeriod(): boolean {
       return this.$store.getters.getLeaderPeriod;
+    },
+    lang(): Lang {
+      return this.$store.getters.getLang;
     },
   },
   methods: {
